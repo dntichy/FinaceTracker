@@ -9,34 +9,78 @@
              >
     <Grid>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center"  >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="40" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
 
-            <Label HorizontalAlignment="Center" Margin="10" Content="{Binding MessageText}" />
+                <Label Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Date" />
+                <Label Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Amount" />
+                <Label Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Category" />
+                <Label Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Description" />
 
-            <TextBox    x:Name="tbInput" 
-                   Width="200"
-                   Margin="10"
+                <TextBox 
+                   Grid.Row="0" Grid.Column="1"
+                   Width="150"
+                   Margin="5"
+                   Height="25"
+                   Text="{Binding TxRecord.Amount}"
+                   HorizontalAlignment="Center"
+                   />
+                <TextBox 
+                   Grid.Row="1" Grid.Column="1"
+                   Width="150"
+                   Margin="5"
+                   Height="25"
                    Text="{Binding UserInput}"
                    HorizontalAlignment="Center"
                    />
-
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,20" >
-
-                <Button x:Name="butOK"
-               Content="OK"
-               Width="80"
-               Margin="10,0"                
-               HorizontalAlignment="Center"
-               Command="{Binding butOK}"                
-               />
-
-                <Button x:Name="butCancel"
+                <TextBox 
+                   Grid.Row="2" Grid.Column="1"
+                   Width="150"
+                   Margin="5"
+                   Height="25"
+                   Text="{Binding UserInput}"
+                   HorizontalAlignment="Center"
+                   />
+                <TextBox 
+                   Grid.Row="3" Grid.Column="1"
+                   Width="150"
+                   Margin="5"
+                   Height="25"
+                   Text="{Binding UserInput}"
+                   HorizontalAlignment="Center"
+                   />
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="4" Grid.ColumnSpan="2">
+                    <Button  Height="20" 
+                Content="Add"
+                Width="80"
+                Margin="5"                
+                HorizontalAlignment="Center"
+                Command="{Binding ConfirmTxAddDialogCommand}"/>
+                    <Button  Height="20" 
                Content="Cancel"             
                Width="80"
-               Margin="10,0"
+               Margin="5"
                HorizontalAlignment="Center"
-              Command="{Binding _closeCommand}" 
+              Command="{Binding CloseTxAddDialogCommand}" 
                />
-            </StackPanel>
+
+                </StackPanel>
+
+            </Grid>
+
+
+
+
         </StackPanel>
     </Grid>
 </Dialog:CustomDialog>

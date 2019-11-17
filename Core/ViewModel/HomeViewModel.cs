@@ -64,20 +64,15 @@ namespace Core.ViewModels
 
         private async Task GetUserInputAsync()
         {
-      
             var custom_dialog = new AddTransactionDialog();
-            //custom_dialog.Height = 300;
-            //custom_dialog.Width = 1009;
-
-            var dialog_vm = new AddTransactionDialogViewModel(async instance =>
+            var dialogViewModel = new AddTransactionDialogViewModel(async instance =>
             {
                 await dialogCoordinator.HideMetroDialogAsync(this, custom_dialog);
                 //instance --> dialog ViewModel
                 if (!(instance.Cancel || string.IsNullOrEmpty(instance.UserInput))) ProcessUserInput(instance.UserInput);
             });
 
-            dialog_vm.MessageText = "Please type in your first name";
-            custom_dialog.DataContext = dialog_vm;
+            custom_dialog.DataContext = dialogViewModel;
 
             await dialogCoordinator.ShowMetroDialogAsync(this, custom_dialog);
         }
