@@ -1,24 +1,18 @@
-﻿using Core.ViewModel.Dialogs;
-using Core.Views;
-using Core.Views.Dialogs;
+﻿using Core.Views;
 using GalaSoft.MvvmLight.Command;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
 namespace Core.ViewModels
 {
-    public class HomeViewModel
+    public class HomeViewModel 
     {
         private IDialogCoordinator dialogCoordinator;
 
@@ -35,57 +29,40 @@ namespace Core.ViewModels
 
         public ICommand EditTxCommand { get; set; }
 
-        public HomeViewModel(IDialogCoordinator dialogCoordinator)
+        public HomeViewModel(IDialogCoordinator instance)
         {
-            this.dialogCoordinator = dialogCoordinator;
+            dialogCoordinator = instance;
+
             transactions = new ObservableCollection<TransactionRecord>();
             LoadFromJsonFile();
 
-            AddNewTxCommand = new RelayCommand<object>(AddNewTx);
-            RemoveTxCommand = new RelayCommand<object>(RemoveTx);
-            EditTxCommand = new RelayCommand<object>(EditTx);
+            AddNewTxCommand = new RelayCommand(AddNewTxAsync);
+            RemoveTxCommand = new RelayCommand(RemoveTx);
+            EditTxCommand = new RelayCommand(EditTx);
         }
 
-        private void EditTx(object obj)
+        private void EditTx()
         {
             throw new NotImplementedException();
         }
 
-        private void RemoveTx(object obj)
+        private void RemoveTx()
         {
             throw new NotImplementedException();
         }
 
-        private void AddNewTx(object obj)
+        private void AddNewTxAsync()
         {
-            GetUserInputAsync();
+            DoiT();
             
         }
 
-        private async Task GetUserInputAsync()
+        private async void DoiT()
         {
-      
-            var custom_dialog = new AddTransactionDialog();
-            //custom_dialog.Height = 300;
-            //custom_dialog.Width = 1009;
-
-            var dialog_vm = new AddTransactionDialogViewModel(async instance =>
-            {
-                await dialogCoordinator.HideMetroDialogAsync(this, custom_dialog);
-                //instance --> dialog ViewModel
-                if (!(instance.Cancel || string.IsNullOrEmpty(instance.UserInput))) ProcessUserInput(instance.UserInput);
-            });
-
-            dialog_vm.MessageText = "Please type in your first name";
-            custom_dialog.DataContext = dialog_vm;
-
-            await dialogCoordinator.ShowMetroDialogAsync(this, custom_dialog);
-        }
-
-        public void ProcessUserInput(string input_message)
-        {
-            Console.WriteLine("Users firstname is " + input_message);
-
+            var myDialog = new AddDialog();
+            myDialog.ShowDialogExternally();
+            await dialogCoordinator.ShowMetroDialogAsync(this, myDialog);
+            //await dialogCoordinator.HideMetroDialogAsync(this, myDialog);
         }
 
         public void ImportFromCSV(string fileName)
@@ -154,7 +131,7 @@ namespace Core.ViewModels
 
         private void SaveRecordsToJsonFile(object sender, RoutedEventArgs e)
         {
-            string json = JsonConvert.SerializeObject(Transactions);
+            string json = JsonConvert.SerializeObject(Transactions, Formatting.Indented);
             File.WriteAllText("data.json", json);
         }
 

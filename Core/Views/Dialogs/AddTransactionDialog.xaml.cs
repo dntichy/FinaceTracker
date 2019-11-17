@@ -1,11 +1,6 @@
-﻿using Core.ViewModels;
-using MahApps.Metro.Controls.Dialogs;
-using Microsoft.Win32;
-using Newtonsoft.Json;
+﻿using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,19 +14,18 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Core.Views
+
+
+namespace Core.Views.Dialogs
 {
     /// <summary>
-    /// Interaction logic for HomeView.xaml
+    /// Interaction logic for AddTransactionDialog.xaml
     /// </summary>
-    public partial class HomeView : UserControl
+    public partial class AddTransactionDialog : CustomDialog
     {
-        HomeViewModel homeViewModel = new HomeViewModel(DialogCoordinator.Instance);
-
-        public HomeView()
+        public AddTransactionDialog()
         {
             InitializeComponent();
-            DataContext = homeViewModel;
         }
     }
 }

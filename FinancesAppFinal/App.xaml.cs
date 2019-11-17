@@ -14,4 +14,5 @@ namespace FinancesAppFinal
     public partial class App : Application
     {
     }
+
 }

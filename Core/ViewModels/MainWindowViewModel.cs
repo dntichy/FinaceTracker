@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 namespace Core.ViewModels
 {
-   
+
     public class MainWindowViewModel
 
     {
-       
+        public HomeViewModel HomeViewModel { get; private set; }
+
+        public MainWindowViewModel()
+        {
+        }
     }
 }

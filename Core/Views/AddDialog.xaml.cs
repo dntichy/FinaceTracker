@@ -1,11 +1,7 @@
 ﻿using Core.ViewModels;
 using MahApps.Metro.Controls.Dialogs;
-using Microsoft.Win32;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,16 +18,18 @@ using System.Windows.Shapes;
 namespace Core.Views
 {
     /// <summary>
-    /// Interaction logic for HomeView.xaml
+    /// Interaction logic for AddDialog.xaml
     /// </summary>
-    public partial class HomeView : UserControl
+    public partial class AddDialog : CustomDialog, IClosable
     {
-        HomeViewModel homeViewModel = new HomeViewModel(DialogCoordinator.Instance);
-
-        public HomeView()
+        public AddDialog()
         {
             InitializeComponent();
-            DataContext = homeViewModel;
+        }
+
+        public void Close()
+        {
+            RequestCloseAsync();
         }
     }
 }
