@@ -20,7 +20,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <ListView Grid.Row="1" ItemsSource="{Binding Transactions}">
+        <ListView Grid.Row="1" ItemsSource="{Binding Transactions}"  SelectedItem="{Binding SelectedTransaction}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Date" Width="120"
@@ -28,7 +28,7 @@
                     <GridViewColumn Header="Amount" Width="80"
                             DisplayMemberBinding="{Binding Amount}"></GridViewColumn>
                     <GridViewColumn Header="Category" Width="100"
-                            DisplayMemberBinding="{Binding Category}"></GridViewColumn>
+                            DisplayMemberBinding="{Binding Category.Name}"></GridViewColumn>
                     <GridViewColumn Header="Shopping place" Width="144"
                             DisplayMemberBinding="{Binding ShoppingPlace}"></GridViewColumn>
                     <GridViewColumn Header="Description" Width="440"

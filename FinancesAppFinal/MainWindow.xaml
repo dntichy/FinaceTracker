@@ -74,17 +74,19 @@
                         </Controls:HamburgerMenuIconItem.Tag>
                     </Controls:HamburgerMenuIconItem>
 
+                    <Controls:HamburgerMenuIconItem Icon="{iconPacks:Material Kind=FileTree}" Label="Categories">
+                        <Controls:HamburgerMenuIconItem.Tag>
+                            <views:CategoryView />
+                        </Controls:HamburgerMenuIconItem.Tag>
+                    </Controls:HamburgerMenuIconItem>
+                    
                     <Controls:HamburgerMenuIconItem Icon="{iconPacks:Material Kind=ChartBar}" Label="Statistics">
                         <Controls:HamburgerMenuIconItem.Tag>
                             <views:StatisticsView />
                         </Controls:HamburgerMenuIconItem.Tag>
                     </Controls:HamburgerMenuIconItem>
 
-                    <Controls:HamburgerMenuIconItem Icon="{iconPacks:Material Kind=HomeModern}" Label="About">
-                        <Controls:HamburgerMenuIconItem.Tag>
-                            <views:AboutView />
-                        </Controls:HamburgerMenuIconItem.Tag>
-                    </Controls:HamburgerMenuIconItem>
+                    
                 </Controls:HamburgerMenuItemCollection>
             </Controls:HamburgerMenu.ItemsSource>
 

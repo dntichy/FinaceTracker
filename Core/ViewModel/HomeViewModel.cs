@@ -1,4 +1,5 @@
-﻿using Core.ViewModel.Dialogs;
+﻿using Core.Models;
+using Core.ViewModel.Dialogs;
 using Core.Views;
 using Core.Views.Dialogs;
 using GalaSoft.MvvmLight.Command;
@@ -6,7 +7,6 @@ using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -18,16 +18,31 @@ using System.Windows.Input;
 
 namespace Core.ViewModels
 {
-    public class HomeViewModel
+    public class HomeViewModel : INotifyPropertyChanged
     {
+        private const string TransactionsPath = "data.json";
+        
         private IDialogCoordinator dialogCoordinator;
+
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+        private void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            handler(this, new PropertyChangedEventArgs(name));
+        }
 
         private ObservableCollection<TransactionRecord> transactions;
         public ObservableCollection<TransactionRecord> Transactions
         {
             get { return transactions; }
-            set { transactions = value; }
+            set
+            {
+                transactions = value;
+                OnPropertyChanged("Transactions");
+            }
         }
+        public TransactionRecord SelectedTransaction { get; set; }
 
         public ICommand AddNewTxCommand { get; set; }
 
@@ -38,13 +53,15 @@ namespace Core.ViewModels
         public HomeViewModel(IDialogCoordinator dialogCoordinator)
         {
             this.dialogCoordinator = dialogCoordinator;
-            transactions = new ObservableCollection<TransactionRecord>();
-            LoadFromJsonFile();
+            Transactions = new ObservableCollection<TransactionRecord>();
+            LoadTransactionsFromJson();
 
             AddNewTxCommand = new RelayCommand<object>(AddNewTx);
             RemoveTxCommand = new RelayCommand<object>(RemoveTx);
             EditTxCommand = new RelayCommand<object>(EditTx);
         }
+
+      
 
         private void EditTx(object obj)
         {
@@ -53,13 +70,18 @@ namespace Core.ViewModels
 
         private void RemoveTx(object obj)
         {
-            throw new NotImplementedException();
+            if (SelectedTransaction != null)
+            {
+                Transactions.Remove(SelectedTransaction);
+                ReorderTransactionList();
+            }
+
         }
 
         private void AddNewTx(object obj)
         {
             GetUserInputAsync();
-            
+
         }
 
         private async Task GetUserInputAsync()
@@ -68,8 +90,7 @@ namespace Core.ViewModels
             var dialogViewModel = new AddTransactionDialogViewModel(async instance =>
             {
                 await dialogCoordinator.HideMetroDialogAsync(this, custom_dialog);
-                //instance --> dialog ViewModel
-                if (!(instance.Cancel || string.IsNullOrEmpty(instance.UserInput))) ProcessUserInput(instance.UserInput);
+                if (!instance.Cancel) ProcessUserInput(instance.TxRecord);
             });
 
             custom_dialog.DataContext = dialogViewModel;
@@ -77,50 +98,58 @@ namespace Core.ViewModels
             await dialogCoordinator.ShowMetroDialogAsync(this, custom_dialog);
         }
 
-        public void ProcessUserInput(string input_message)
+        public void ProcessUserInput(TransactionRecord txRecord)
         {
-            Console.WriteLine("Users firstname is " + input_message);
+            Transactions.Add(txRecord);
+            ReorderTransactionList();
 
         }
 
-        public void ImportFromCSV(string fileName)
+        private void ReorderTransactionList()
         {
-            if (!File.Exists(fileName))
-            {
-                MessageBox.Show("File doesn't exist");
-            }
-            else
-            {
-                var linesOfDocument = File.ReadAllLines(fileName, Encoding.GetEncoding("windows-1250"));
-                bool isFirstLine = true;
-                foreach (var line in linesOfDocument)
-                {
+            var list = new ObservableCollection<TransactionRecord>(Transactions.OrderByDescending(item => item.Date));
+            Transactions = list;
 
-                    if (isFirstLine)
-                    {
-                        isFirstLine = false;
-                        continue;
-                    }
-                    var splitLine = line.Split(';');
-                    var date = splitLine[0];
-                    var amount = splitLine[1];
-                    var shopPlace = splitLine[2];
-                    var category = splitLine[3];
-
-                    if (date == "" || amount == "") return;
-
-                    var tx = new TransactionRecord()
-                    {
-                        Amount = float.Parse(amount),
-                        Category = category,
-                        Date = DateTime.Parse(date),
-                        Description = "",
-                        ShoppingPlace = shopPlace
-                    };
-                    Transactions.Add(tx);
-                }
-            }
         }
+
+        //public void ImportFromCSV(string fileName)
+        //{
+        //    if (!File.Exists(fileName))
+        //    {
+        //        MessageBox.Show("File doesn't exist");
+        //    }
+        //    else
+        //    {
+        //        var linesOfDocument = File.ReadAllLines(fileName, Encoding.GetEncoding("windows-1250"));
+        //        bool isFirstLine = true;
+        //        foreach (var line in linesOfDocument)
+        //        {
+
+        //            if (isFirstLine)
+        //            {
+        //                isFirstLine = false;
+        //                continue;
+        //            }
+        //            var splitLine = line.Split(';');
+        //            var date = splitLine[0];
+        //            var amount = splitLine[1];
+        //            var shopPlace = splitLine[2];
+        //            var category = splitLine[3];
+
+        //            if (date == "" || amount == "") return;
+
+        //            var tx = new TransactionRecord()
+        //            {
+        //                Amount = float.Parse(amount),
+        //                Category = category,
+        //                Date = DateTime.Parse(date),
+        //                Description = "",
+        //                ShoppingPlace = shopPlace
+        //            };
+        //            Transactions.Add(tx);
+        //        }
+        //    }
+        //}
 
         private void ImportFromCSVMenuItemClicked(object sender, RoutedEventArgs e)
         {
@@ -143,7 +172,7 @@ namespace Core.ViewModels
             if (openFileDialog1.ShowDialog() == true)
             {
                 var filePath = openFileDialog1.FileName;
-                ImportFromCSV(filePath);
+                //ImportFromCSV(filePath);
             }
         }
 
@@ -153,13 +182,16 @@ namespace Core.ViewModels
             File.WriteAllText("data.json", json);
         }
 
-        private void LoadFromJsonFile()
+
+        private void LoadTransactionsFromJson()
         {
-            if (File.Exists("data.json"))
+            if (File.Exists(TransactionsPath))
             {
-                var list = JsonConvert.DeserializeObject<ObservableCollection<TransactionRecord>>(File.ReadAllText("data.json"));
-                transactions = list;
+                var list = JsonConvert.DeserializeObject<ObservableCollection<TransactionRecord>>(File.ReadAllText(TransactionsPath));
+                var list2 = new ObservableCollection<TransactionRecord>(list.OrderByDescending(item => item.Date));
+                Transactions = list2;
             }
+
         }
     }
 }

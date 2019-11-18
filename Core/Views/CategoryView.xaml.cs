@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Core.Views
 {
     /// <summary>
-    /// Interaction logic for HomeView.xaml
+    /// Interaction logic for StatisticsView.xaml
     /// </summary>
-    public partial class SettingsView : UserControl
+    public partial class CategoryView : UserControl
     {
-        public SettingsView()
+        public CategoryView()
         {
             InitializeComponent();
         }

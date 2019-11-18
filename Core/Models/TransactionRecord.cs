@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Core.Models;
+using System;
 using System.ComponentModel;
 
 namespace Core.Views
 {
     public class TransactionRecord : INotifyPropertyChanged
     {
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; } 
         public float Amount { get; set; }
-        public string Category { get; set; }
+        public Category Category { get; set; }
         public string Description { get; set; }
         public string ShoppingPlace { get; set; }
 
