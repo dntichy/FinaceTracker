@@ -59,14 +59,26 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <TextBox 
+                <ComboBox
+                    Margin="5"
+                    Height="25"
+                     Grid.Row="3" Grid.Column="1"
+             IsEditable="True"
+             IsTextSearchEnabled="True"
+             SelectedItem="{Binding TxRecord.ShoppingPlace, Mode=TwoWay}"
+             ItemsSource="{Binding ShoppingPlaceDistinct}">
+                    <ComboBox.InputBindings>
+                        <KeyBinding  Key="Enter" Command="{Binding NotImplementedCommand}"/>
+                    </ComboBox.InputBindings>
+                </ComboBox>
+                <!--<TextBox 
                    Grid.Row="3" Grid.Column="1"
                    Width="180"
                    Margin="5"
                    Height="25"
                    Text="{Binding TxRecord.ShoppingPlace}"
                    HorizontalAlignment="Center"
-                   />
+                   />-->
                 <TextBox 
                    Grid.Row="4" Grid.Column="1"
                    Width="180"

@@ -11,6 +11,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              >
+    <UserControl.Resources>
+       
+    </UserControl.Resources>
     <!--<UserControl.DataContext>
         <viewModel:HomeViewModel />
     </UserControl.DataContext>-->
@@ -21,8 +24,20 @@
         </Grid.RowDefinitions>
 
         <ListView Grid.Row="1" ItemsSource="{Binding Transactions}"  SelectedItem="{Binding SelectedTransaction}">
+            <!--<ListView.Resources>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="Background" Value="{Binding Category.Color}"  />
+                </Style>
+            </ListView.Resources>-->
             <ListView.View>
                 <GridView>
+                    <GridViewColumn Header="" Width="23">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Background="{Binding Category.Color}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn Header="Date" Width="120"
                             DisplayMemberBinding="{Binding Date, StringFormat={}{0:dd/MM/yyyy}}"></GridViewColumn>
                     <GridViewColumn Header="Amount" Width="80"

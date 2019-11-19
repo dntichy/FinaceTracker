@@ -21,9 +21,10 @@ namespace Core.ViewModel.Dialogs
 
         public ObservableCollection<Category> Categories { get; set; }
 
+        public ObservableCollection<string> ShoppingPlaceDistinct { get; set; }
         public TransactionRecord TxRecord { get; set; }
 
-        public bool Cancel { get; set; }  
+        public bool Cancel { get; set; }
 
         public ICommand CloseTxAddDialogCommand { get; set; }
         public ICommand ConfirmTxAddDialogCommand { get; set; }
@@ -32,9 +33,16 @@ namespace Core.ViewModel.Dialogs
         public AddTransactionDialogViewModel(Action<AddTransactionDialogViewModel> closeHandler)
         {
             LoadCategoriesFromJson();
-            TxRecord = new TransactionRecord() { Category = new Category()};
+            TxRecord = new TransactionRecord() { Category = new Category() };
             Cancel = false;
-            CloseTxAddDialogCommand = new SimpleCommand { ExecuteDelegate = o => closeHandler(this) };
+            CloseTxAddDialogCommand = new SimpleCommand
+            {
+                ExecuteDelegate = o =>
+                {
+                    this.Cancel = true;
+                    closeHandler(this);
+                }
+            };
             ConfirmTxAddDialogCommand = new SimpleCommand { ExecuteDelegate = o => closeHandler(this) };
         }
 

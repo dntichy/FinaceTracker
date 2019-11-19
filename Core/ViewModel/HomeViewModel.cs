@@ -52,10 +52,10 @@ namespace Core.ViewModels
 
         public HomeViewModel(IDialogCoordinator dialogCoordinator)
         {
+            
             this.dialogCoordinator = dialogCoordinator;
             Transactions = new ObservableCollection<TransactionRecord>();
             LoadTransactionsFromJson();
-
             AddNewTxCommand = new RelayCommand<object>(AddNewTx);
             RemoveTxCommand = new RelayCommand<object>(RemoveTx);
             EditTxCommand = new RelayCommand<object>(EditTx);
@@ -74,6 +74,7 @@ namespace Core.ViewModels
             {
                 Transactions.Remove(SelectedTransaction);
                 ReorderTransactionList();
+                SaveRecordsToJsonFile();
             }
 
         }
@@ -86,13 +87,15 @@ namespace Core.ViewModels
 
         private async Task GetUserInputAsync()
         {
+            
             var custom_dialog = new AddTransactionDialog();
             var dialogViewModel = new AddTransactionDialogViewModel(async instance =>
             {
+
                 await dialogCoordinator.HideMetroDialogAsync(this, custom_dialog);
                 if (!instance.Cancel) ProcessUserInput(instance.TxRecord);
             });
-
+            dialogViewModel.ShoppingPlaceDistinct = new ObservableCollection<string>( transactions.Select(n => n.ShoppingPlace).Distinct());
             custom_dialog.DataContext = dialogViewModel;
 
             await dialogCoordinator.ShowMetroDialogAsync(this, custom_dialog);
@@ -102,7 +105,7 @@ namespace Core.ViewModels
         {
             Transactions.Add(txRecord);
             ReorderTransactionList();
-
+            SaveRecordsToJsonFile();
         }
 
         private void ReorderTransactionList()
@@ -176,9 +179,9 @@ namespace Core.ViewModels
             }
         }
 
-        private void SaveRecordsToJsonFile(object sender, RoutedEventArgs e)
+        private void SaveRecordsToJsonFile()
         {
-            string json = JsonConvert.SerializeObject(Transactions);
+            string json = JsonConvert.SerializeObject(Transactions, Formatting.Indented);
             File.WriteAllText("data.json", json);
         }
 
