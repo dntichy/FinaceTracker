@@ -20,8 +20,9 @@ namespace Core.ViewModels
 {
     public class HomeViewModel : INotifyPropertyChanged
     {
-        private const string TransactionsPath = "data.json";
-        
+        //private const string TransactionsPath = "data.json";
+
+        private TransactionRecordRepository TransactionRecordRepository { get; set; }
         private IDialogCoordinator dialogCoordinator;
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
@@ -52,10 +53,10 @@ namespace Core.ViewModels
 
         public HomeViewModel(IDialogCoordinator dialogCoordinator)
         {
-            
             this.dialogCoordinator = dialogCoordinator;
-            Transactions = new ObservableCollection<TransactionRecord>();
-            LoadTransactionsFromJson();
+            TransactionRecordRepository = new TransactionRecordRepository();
+            Transactions = new ObservableCollection<TransactionRecord>(TransactionRecordRepository.TxRepository);
+
             AddNewTxCommand = new RelayCommand<object>(AddNewTx);
             RemoveTxCommand = new RelayCommand<object>(RemoveTx);
             EditTxCommand = new RelayCommand<object>(EditTx);
@@ -65,16 +66,16 @@ namespace Core.ViewModels
 
         private void EditTx(object obj)
         {
-            throw new NotImplementedException();
         }
 
         private void RemoveTx(object obj)
         {
+
             if (SelectedTransaction != null)
             {
                 Transactions.Remove(SelectedTransaction);
                 ReorderTransactionList();
-                SaveRecordsToJsonFile();
+                //SaveRecordsToJsonFile();
             }
 
         }
@@ -103,9 +104,10 @@ namespace Core.ViewModels
 
         public void ProcessUserInput(TransactionRecord txRecord)
         {
-            Transactions.Add(txRecord);
+            TransactionRecordRepository.Add(txRecord);
+            //Transactions.Add(txRecord);
             ReorderTransactionList();
-            SaveRecordsToJsonFile();
+            //SaveRecordsToJsonFile();
         }
 
         private void ReorderTransactionList()
@@ -154,47 +156,47 @@ namespace Core.ViewModels
         //    }
         //}
 
-        private void ImportFromCSVMenuItemClicked(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog
-            {
-                Title = "Browse CSV Files",
+        //private void ImportFromCSVMenuItemClicked(object sender, RoutedEventArgs e)
+        //{
+        //    OpenFileDialog openFileDialog1 = new OpenFileDialog
+        //    {
+        //        Title = "Browse CSV Files",
 
-                CheckFileExists = true,
-                CheckPathExists = true,
+        //        CheckFileExists = true,
+        //        CheckPathExists = true,
 
-                DefaultExt = "csv",
-                Filter = "csv files (*.csv)|*.csv",
-                FilterIndex = 2,
-                RestoreDirectory = true,
+        //        DefaultExt = "csv",
+        //        Filter = "csv files (*.csv)|*.csv",
+        //        FilterIndex = 2,
+        //        RestoreDirectory = true,
 
-                ReadOnlyChecked = true,
-                ShowReadOnly = true
-            };
+        //        ReadOnlyChecked = true,
+        //        ShowReadOnly = true
+        //    };
 
-            if (openFileDialog1.ShowDialog() == true)
-            {
-                var filePath = openFileDialog1.FileName;
-                //ImportFromCSV(filePath);
-            }
-        }
+        //    if (openFileDialog1.ShowDialog() == true)
+        //    {
+        //        var filePath = openFileDialog1.FileName;
+        //        //ImportFromCSV(filePath);
+        //    }
+        //}
 
-        private void SaveRecordsToJsonFile()
-        {
-            string json = JsonConvert.SerializeObject(Transactions, Formatting.Indented);
-            File.WriteAllText("data.json", json);
-        }
+        //private void SaveRecordsToJsonFile()
+        //{
+        //    string json = JsonConvert.SerializeObject(Transactions, Formatting.Indented);
+        //    File.WriteAllText("data.json", json);
+        //}
 
 
-        private void LoadTransactionsFromJson()
-        {
-            if (File.Exists(TransactionsPath))
-            {
-                var list = JsonConvert.DeserializeObject<ObservableCollection<TransactionRecord>>(File.ReadAllText(TransactionsPath));
-                var list2 = new ObservableCollection<TransactionRecord>(list.OrderByDescending(item => item.Date));
-                Transactions = list2;
-            }
+        //private void LoadTransactionsFromJson()
+        //{
+        //    if (File.Exists(TransactionsPath))
+        //    {
+        //        var list = JsonConvert.DeserializeObject<ObservableCollection<TransactionRecord>>(File.ReadAllText(TransactionsPath));
+        //        var list2 = new ObservableCollection<TransactionRecord>(list.OrderByDescending(item => item.Date));
+        //        Transactions = list2;
+        //    }
 
-        }
+        //}
     }
 }
