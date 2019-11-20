@@ -10,6 +10,11 @@
                       WindowTransitionsEnabled="True"
                       WindowStartupLocation="CenterScreen"
                       >
+    <Controls:MetroWindow.IconTemplate>
+        <DataTemplate>
+            <Image Source="Resources/bar-chart.png" Width="20"></Image>
+        </DataTemplate>
+    </Controls:MetroWindow.IconTemplate>
     <Grid>
         <Grid.Resources>
 

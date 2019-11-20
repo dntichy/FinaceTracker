@@ -12,27 +12,63 @@
              d:DesignHeight="450" d:DesignWidth="800"
              >
     <UserControl.Resources>
-       
+        <DataTemplate x:Key="templateListBoxItem">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Border Grid.Column="0"
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Margin="0,0,10,0">
+                    <Image Source="{Binding Path=Image}"
+                       Stretch="Fill"
+                       Height="40"
+                       Width="40"></Image>
+                </Border>
+                <TextBlock Text="{Binding Path=Id}"
+                       FontWeight="Bold"
+                       Grid.Column="1"
+                       Grid.Row="0"></TextBlock>
+                <TextBlock Text="{Binding Path=Amount}"
+                       Grid.Column="1"
+                       Grid.Row="1"></TextBlock>
+            </Grid>
+        </DataTemplate>
+        <Style x:Key="styleListBox" TargetType="{x:Type ListBox}">
+            <Setter Property="ItemTemplate" Value="{StaticResource ResourceKey=templateListBoxItem}"></Setter>
+        </Style>
     </UserControl.Resources>
+   
     <!--<UserControl.DataContext>
         <viewModel:HomeViewModel />
     </UserControl.DataContext>-->
-    <Grid Margin="20,10,0,0">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <ListView Grid.Row="1" ItemsSource="{Binding Transactions}"  SelectedItem="{Binding SelectedTransaction}">
-            <!--<ListView.Resources>
+        <ListView Grid.Row="1" Style="{StaticResource ResourceKey=styleListBox}" Margin="0" ItemsSource="{Binding Transactions}"  SelectedItem="{Binding SelectedTransaction}">
+            <ListView.Resources>
                 <Style TargetType="{x:Type ListViewItem}">
-                    <Setter Property="Background" Value="{Binding Category.Color}"  />
+                    <!--<Setter Property="Background" Value="{Binding Category.Color}"  />-->
+                    <Setter Property="FontSize" Value="17" />
+                    <Setter Property="FontFamily" Value="Andalus" />
                 </Style>
-            </ListView.Resources>-->
-            <ListView.View>
-                <GridView>
+
+            </ListView.Resources>
+            
+            
+            <!--<ListView.View>-->
+                <!--<GridView>
                     <GridViewColumn Header="" Width="23">
-                        <GridViewColumn.CellTemplate>
+                        <GridViewColumn.CellTemplate >
                             <DataTemplate>
                                 <TextBlock Background="{Binding Category.Color}" />
                             </DataTemplate>
@@ -48,10 +84,13 @@
                             DisplayMemberBinding="{Binding ShoppingPlace}"></GridViewColumn>
                     <GridViewColumn Header="Description" Width="440"
                             DisplayMemberBinding="{Binding Description}"></GridViewColumn>
-                </GridView>
-            </ListView.View>
+                </GridView>-->
+            <!--</ListView.View>-->
         </ListView>
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
+        
+        
+        
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Background="Beige">
 
             <Button Command="{Binding Path = AddNewTxCommand }"  ToolTip="Add a new transaction" Focusable="False" Width="25" Height="25" BorderThickness="0" Background="{x:Null}">
                 <iconPacks:PackIconMaterial Kind="Plus" VerticalAlignment="Center" HorizontalAlignment="Center" />

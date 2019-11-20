@@ -6,6 +6,7 @@ namespace Core.Views
 {
     public class TransactionRecord : INotifyPropertyChanged
     {
+        public string Image { get; set; }
         public int Id { get; set; }
         public DateTime? Date { get; set; }
         public float Amount { get; set; }

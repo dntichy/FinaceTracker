@@ -26,7 +26,6 @@ namespace Core.ViewModels
         private IDialogCoordinator dialogCoordinator;
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
-
         private void OnPropertyChanged(string name)
         {
             PropertyChangedEventHandler handler = PropertyChanged;
@@ -55,7 +54,9 @@ namespace Core.ViewModels
         {
             this.dialogCoordinator = dialogCoordinator;
             TransactionRecordRepository = new TransactionRecordRepository();
-            Transactions = new ObservableCollection<TransactionRecord>(TransactionRecordRepository.TxRepository);
+            transactions = new ObservableCollection<TransactionRecord>(TransactionRecordRepository.TxRepository);
+
+
 
             AddNewTxCommand = new RelayCommand<object>(AddNewTx);
             RemoveTxCommand = new RelayCommand<object>(RemoveTx);

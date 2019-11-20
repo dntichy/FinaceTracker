@@ -208,6 +208,21 @@
       <Name>Shared</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Company Logos\TERNO.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Company Logos\600px-Lidl_logo.png" />
+    <Resource Include="Company Logos\BILLA.jpg" />
+    <Resource Include="Company Logos\Dm_Logo.svg" />
+    <Resource Include="Company Logos\KAUFLAND.png" />
+    <Resource Include="Company Logos\NAY.png" />
+    <Resource Include="Company Logos\og-image.jpg" />
+    <Resource Include="Company Logos\starbucks.jpg" />
+    <Resource Include="Company Logos\TESCO.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Company Logos\IKEA.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

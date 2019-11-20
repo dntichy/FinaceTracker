@@ -182,5 +182,11 @@
       <Name>Shared</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\dollar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\bar-chart.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
