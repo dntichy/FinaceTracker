@@ -209,20 +209,53 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Company Logos\TERNO.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Company Logos\600px-Lidl_logo.png" />
-    <Resource Include="Company Logos\BILLA.jpg" />
-    <Resource Include="Company Logos\Dm_Logo.svg" />
+    <Resource Include="Company Logos\LIDL.png" />
     <Resource Include="Company Logos\KAUFLAND.png" />
     <Resource Include="Company Logos\NAY.png" />
-    <Resource Include="Company Logos\og-image.jpg" />
-    <Resource Include="Company Logos\starbucks.jpg" />
+    <Resource Include="Company Logos\CENTRAL.jpg" />
     <Resource Include="Company Logos\TESCO.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Company Logos\IKEA.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Company Logos\BILLA.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Company Logos\COFEE.jpg" />
+    <Resource Include="Company Logos\DENN.png" />
+    <Resource Include="Company Logos\PHARM.png" />
+    <Resource Include="Company Logos\TERNO.png" />
+    <Resource Include="Company Logos\ZOOT.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Company Logos\C&amp;H.jpg" />
+    <Resource Include="Company Logos\DM.png" />
+    <Resource Include="Company Logos\H&amp;M.png" />
+    <Resource Include="Company Logos\KIKA.jpg" />
+    <Resource Include="Company Logos\KVETY.png" />
+    <Resource Include="Company Logos\PAPIER.png" />
+    <Resource Include="Company Logos\PEPCO.png" />
+    <Resource Include="Company Logos\RESTAURANTS.jpg" />
+    <Resource Include="Company Logos\SCONTO.jpg" />
+    <Resource Include="Company Logos\SD.png" />
+    <Resource Include="Company Logos\TENZENIS.png" />
+    <Resource Include="Company Logos\ZSR.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Company Logos\POST.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Company Logos\COOP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Company Logos\MALL.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Company Logos\MANU.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Company Logos\NOTFOUND.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

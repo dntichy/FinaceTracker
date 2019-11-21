@@ -3,18 +3,18 @@
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-                      Title="TrackIt"
-                      Height="600"
-                      Width="800"
+                      Title="X"
+                      Height="800"
+                      Width="1000"
                       xmlns:views="clr-namespace:Core.Views;assembly=Core"
                       WindowTransitionsEnabled="True"
                       WindowStartupLocation="CenterScreen"
                       >
-    <Controls:MetroWindow.IconTemplate>
+    <!--<Controls:MetroWindow.IconTemplate>
         <DataTemplate>
             <Image Source="Resources/bar-chart.png" Width="20"></Image>
         </DataTemplate>
-    </Controls:MetroWindow.IconTemplate>
+    </Controls:MetroWindow.IconTemplate>-->
     <Grid>
         <Grid.Resources>
 
@@ -112,10 +112,10 @@
                 <DataTemplate DataType="{x:Type Controls:HamburgerMenuItem}">
                     <Grid x:Name="TheContentGrid">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="48" />
+                            <!--<RowDefinition Height="48" />-->
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <Border Grid.Row="0"
+                        <!--<Border Grid.Row="0"
                                 Background="#FF444444">
                             <TextBlock x:Name="Header"
                                        HorizontalAlignment="Center"
@@ -123,7 +123,7 @@
                                        FontSize="24"
                                        Foreground="White"
                                        Text="{Binding Label}" />
-                        </Border>
+                        </Border>-->
                         <ContentControl x:Name="TheContent"
                                         Grid.Row="1"
                                         Focusable="False"
