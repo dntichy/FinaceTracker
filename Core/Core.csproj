@@ -151,6 +151,8 @@
   <ItemGroup>
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\IPersitable.cs" />
+    <Compile Include="Models\Shop.cs" />
+    <Compile Include="Models\ShopRepository.cs" />
     <Compile Include="Models\TransactionRecordRepository.cs" />
     <Compile Include="SelectedItemToContentConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

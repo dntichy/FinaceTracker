@@ -59,7 +59,7 @@ namespace Core.Models
             tx.Amount = record.Amount;
             tx.Category = record.Category;
             tx.Date = record.Date;
-            tx.ShoppingPlace = record.ShoppingPlace;
+            tx.Shop = record.Shop;
             PersistRecords();
         }
     }

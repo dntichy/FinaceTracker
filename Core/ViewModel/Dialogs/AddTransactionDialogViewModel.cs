@@ -21,8 +21,9 @@ namespace Core.ViewModel.Dialogs
 
         public ObservableCollection<Category> Categories { get; set; }
 
-        public ObservableCollection<string> ShoppingPlaceDistinct { get; set; }
+        public ObservableCollection<Shop> ShoppingPlaceDistinct { get; set; }
         public TransactionRecord TxRecord { get; set; }
+
 
         public bool Cancel { get; set; }
 
@@ -32,7 +33,10 @@ namespace Core.ViewModel.Dialogs
 
         public AddTransactionDialogViewModel(Action<AddTransactionDialogViewModel> closeHandler)
         {
-            LoadCategoriesFromJson();
+            LoadCategoriesFromJson(); //todo rework to repository
+            var ShopRepo = new ShopRepository();
+            ShoppingPlaceDistinct = new ObservableCollection<Shop>( ShopRepo.ShRepository);
+
             TxRecord = new TransactionRecord() { Category = new Category() };
             Cancel = false;
             CloseTxAddDialogCommand = new SimpleCommand

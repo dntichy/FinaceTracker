@@ -65,7 +65,7 @@
                      Grid.Row="3" Grid.Column="1"
              IsEditable="True"
              IsTextSearchEnabled="True"
-             SelectedItem="{Binding TxRecord.ShoppingPlace, Mode=TwoWay}"
+             SelectedItem="{Binding TxRecord.Shop, Mode=TwoWay}"
              ItemsSource="{Binding ShoppingPlaceDistinct}">
                     <ComboBox.InputBindings>
                         <KeyBinding  Key="Enter" Command="{Binding NotImplementedCommand}"/>

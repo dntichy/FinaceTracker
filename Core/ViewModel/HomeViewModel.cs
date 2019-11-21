@@ -97,7 +97,6 @@ namespace Core.ViewModels
                 await dialogCoordinator.HideMetroDialogAsync(this, custom_dialog);
                 if (!instance.Cancel) ProcessUserInput(instance.TxRecord);
             });
-            dialogViewModel.ShoppingPlaceDistinct = new ObservableCollection<string>( transactions.Select(n => n.ShoppingPlace).Distinct());
             custom_dialog.DataContext = dialogViewModel;
 
             await dialogCoordinator.ShowMetroDialogAsync(this, custom_dialog);
@@ -106,9 +105,7 @@ namespace Core.ViewModels
         public void ProcessUserInput(TransactionRecord txRecord)
         {
             TransactionRecordRepository.Add(txRecord);
-            //Transactions.Add(txRecord);
             ReorderTransactionList();
-            //SaveRecordsToJsonFile();
         }
 
         private void ReorderTransactionList()

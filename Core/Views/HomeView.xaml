@@ -31,9 +31,9 @@
                        Stretch="Fill" Width="100">
                         <Image.Style>
                             <Style TargetType="{x:Type Image}">
-                                <Setter Property="Source" Value="{Binding Path=Image}" />
+                                <Setter Property="Source" Value="{Binding Path=Shop.ImagePath}" />
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Image}" Value="{x:Null}">
+                                    <DataTrigger Binding="{Binding Shop.ImagePath}" Value="{x:Null}">
                                         <Setter Property="Source" Value="../Company Logos/NOTFOUND.png" />
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -72,31 +72,7 @@
                     <Setter Property="FontSize" Value="16" />
                     <Setter Property="FontFamily" Value="Andalus" />
                 </Style>
-
             </ListView.Resources>
-            
-            
-            <!--<ListView.View>-->
-                <!--<GridView>
-                    <GridViewColumn Header="" Width="23">
-                        <GridViewColumn.CellTemplate >
-                            <DataTemplate>
-                                <TextBlock Background="{Binding Category.Color}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Date" Width="120"
-                            DisplayMemberBinding="{Binding Date, StringFormat={}{0:dd/MM/yyyy}}"></GridViewColumn>
-                    <GridViewColumn Header="Amount" Width="80"
-                            DisplayMemberBinding="{Binding Amount}"></GridViewColumn>
-                    <GridViewColumn Header="Category" Width="100"
-                            DisplayMemberBinding="{Binding Category.Name}"></GridViewColumn>
-                    <GridViewColumn Header="Shopping place" Width="144"
-                            DisplayMemberBinding="{Binding ShoppingPlace}"></GridViewColumn>
-                    <GridViewColumn Header="Description" Width="440"
-                            DisplayMemberBinding="{Binding Description}"></GridViewColumn>
-                </GridView>-->
-            <!--</ListView.View>-->
         </ListView>
 
         <TextBlock  Grid.Row="0" Grid.ColumnSpan="3" VerticalAlignment="Center" FontWeight="Bold" 
