@@ -150,17 +150,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Category.cs" />
-    <Compile Include="Models\IPersitable.cs" />
+    <Compile Include="Models\Repositories\CategoryRepository.cs" />
+    <Compile Include="Models\Interfaces\IPersitable.cs" />
     <Compile Include="Models\Shop.cs" />
-    <Compile Include="Models\ShopRepository.cs" />
-    <Compile Include="Models\TransactionRecordRepository.cs" />
+    <Compile Include="Models\Repositories\ShopRepository.cs" />
+    <Compile Include="Models\Repositories\TransactionRecordRepository.cs" />
     <Compile Include="SelectedItemToContentConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\Dialogs\AddTransactionDialogViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\SimpleCommand.cs" />
     <Compile Include="ViewModel\HomeViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
-    <Compile Include="ViewModel\Student.cs" />
     <Compile Include="Views\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>
@@ -259,5 +259,6 @@
   <ItemGroup>
     <Resource Include="Company Logos\NOTFOUND.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -6,17 +6,20 @@ namespace Core.Views
 {
     public class TransactionRecord : INotifyPropertyChanged
     {
-        //public string Image { get; set; }
         public int Id { get; set; }
         public DateTime? Date { get; set; }
         public float Amount { get; set; }
         public Category Category { get; set; }
         public string Description { get; set; }
-        //public string ShoppingPlace { get; set; }
         public Shop Shop { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public TransactionRecord()
+        {
+            Shop = new Shop();
+            Category = new Category();
+        }
 
+        public event PropertyChangedEventHandler PropertyChanged;
         private void RaisePropertyChanged(string property)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));

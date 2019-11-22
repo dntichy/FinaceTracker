@@ -17,13 +17,9 @@ namespace Core.ViewModel.Dialogs
 {
     class AddTransactionDialogViewModel
     {
-        private const string CategoriesPath = "categories.json";
-
         public ObservableCollection<Category> Categories { get; set; }
-
         public ObservableCollection<Shop> ShoppingPlaceDistinct { get; set; }
         public TransactionRecord TxRecord { get; set; }
-
 
         public bool Cancel { get; set; }
 
@@ -33,30 +29,23 @@ namespace Core.ViewModel.Dialogs
 
         public AddTransactionDialogViewModel(Action<AddTransactionDialogViewModel> closeHandler)
         {
-            LoadCategoriesFromJson(); //todo rework to repository
-            var ShopRepo = new ShopRepository();
-            ShoppingPlaceDistinct = new ObservableCollection<Shop>( ShopRepo.ShRepository);
-
-            TxRecord = new TransactionRecord() { Category = new Category() };
             Cancel = false;
+            var CategRepo = new CategoryRepository();
+            var ShopRepo = new ShopRepository();
+            ShoppingPlaceDistinct = new ObservableCollection<Shop>(ShopRepo.Shops);
+            Categories = new ObservableCollection<Category>(CategRepo.Categories);
+
+            TxRecord = new TransactionRecord();
+            
             CloseTxAddDialogCommand = new SimpleCommand
             {
                 ExecuteDelegate = o =>
                 {
-                    this.Cancel = true;
+                    Cancel = true;
                     closeHandler(this);
                 }
             };
             ConfirmTxAddDialogCommand = new SimpleCommand { ExecuteDelegate = o => closeHandler(this) };
-        }
-
-        private void LoadCategoriesFromJson()
-        {
-            if (File.Exists(CategoriesPath))
-            {
-                var list = JsonConvert.DeserializeObject<ObservableCollection<Category>>(File.ReadAllText(CategoriesPath));
-                Categories = list;
-            }
         }
     }
 }

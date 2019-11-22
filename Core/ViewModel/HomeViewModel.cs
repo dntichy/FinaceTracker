@@ -20,7 +20,6 @@ namespace Core.ViewModels
 {
     public class HomeViewModel : INotifyPropertyChanged
     {
-        //private const string TransactionsPath = "data.json";
 
         private TransactionRecordRepository TransactionRecordRepository { get; set; }
         private IDialogCoordinator dialogCoordinator;
@@ -56,8 +55,6 @@ namespace Core.ViewModels
             TransactionRecordRepository = new TransactionRecordRepository();
             transactions = new ObservableCollection<TransactionRecord>(TransactionRecordRepository.TxRepository);
 
-
-
             AddNewTxCommand = new RelayCommand<object>(AddNewTx);
             RemoveTxCommand = new RelayCommand<object>(RemoveTx);
             EditTxCommand = new RelayCommand<object>(EditTx);
@@ -76,7 +73,6 @@ namespace Core.ViewModels
             {
                 Transactions.Remove(SelectedTransaction);
                 ReorderTransactionList();
-                //SaveRecordsToJsonFile();
             }
 
         }
@@ -93,7 +89,6 @@ namespace Core.ViewModels
             var custom_dialog = new AddTransactionDialog();
             var dialogViewModel = new AddTransactionDialogViewModel(async instance =>
             {
-
                 await dialogCoordinator.HideMetroDialogAsync(this, custom_dialog);
                 if (!instance.Cancel) ProcessUserInput(instance.TxRecord);
             });
@@ -104,8 +99,8 @@ namespace Core.ViewModels
 
         public void ProcessUserInput(TransactionRecord txRecord)
         {
-            TransactionRecordRepository.Add(txRecord);
-            ReorderTransactionList();
+            Transactions.Add(txRecord);
+            ReorderTransactionList(); // todo hook onchange event => persist  and  reorder
         }
 
         private void ReorderTransactionList()
@@ -114,87 +109,5 @@ namespace Core.ViewModels
             Transactions = list;
 
         }
-
-        //public void ImportFromCSV(string fileName)
-        //{
-        //    if (!File.Exists(fileName))
-        //    {
-        //        MessageBox.Show("File doesn't exist");
-        //    }
-        //    else
-        //    {
-        //        var linesOfDocument = File.ReadAllLines(fileName, Encoding.GetEncoding("windows-1250"));
-        //        bool isFirstLine = true;
-        //        foreach (var line in linesOfDocument)
-        //        {
-
-        //            if (isFirstLine)
-        //            {
-        //                isFirstLine = false;
-        //                continue;
-        //            }
-        //            var splitLine = line.Split(';');
-        //            var date = splitLine[0];
-        //            var amount = splitLine[1];
-        //            var shopPlace = splitLine[2];
-        //            var category = splitLine[3];
-
-        //            if (date == "" || amount == "") return;
-
-        //            var tx = new TransactionRecord()
-        //            {
-        //                Amount = float.Parse(amount),
-        //                Category = category,
-        //                Date = DateTime.Parse(date),
-        //                Description = "",
-        //                ShoppingPlace = shopPlace
-        //            };
-        //            Transactions.Add(tx);
-        //        }
-        //    }
-        //}
-
-        //private void ImportFromCSVMenuItemClicked(object sender, RoutedEventArgs e)
-        //{
-        //    OpenFileDialog openFileDialog1 = new OpenFileDialog
-        //    {
-        //        Title = "Browse CSV Files",
-
-        //        CheckFileExists = true,
-        //        CheckPathExists = true,
-
-        //        DefaultExt = "csv",
-        //        Filter = "csv files (*.csv)|*.csv",
-        //        FilterIndex = 2,
-        //        RestoreDirectory = true,
-
-        //        ReadOnlyChecked = true,
-        //        ShowReadOnly = true
-        //    };
-
-        //    if (openFileDialog1.ShowDialog() == true)
-        //    {
-        //        var filePath = openFileDialog1.FileName;
-        //        //ImportFromCSV(filePath);
-        //    }
-        //}
-
-        //private void SaveRecordsToJsonFile()
-        //{
-        //    string json = JsonConvert.SerializeObject(Transactions, Formatting.Indented);
-        //    File.WriteAllText("data.json", json);
-        //}
-
-
-        //private void LoadTransactionsFromJson()
-        //{
-        //    if (File.Exists(TransactionsPath))
-        //    {
-        //        var list = JsonConvert.DeserializeObject<ObservableCollection<TransactionRecord>>(File.ReadAllText(TransactionsPath));
-        //        var list2 = new ObservableCollection<TransactionRecord>(list.OrderByDescending(item => item.Date));
-        //        Transactions = list2;
-        //    }
-
-        //}
     }
 }

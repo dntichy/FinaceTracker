@@ -2,6 +2,8 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,32 +13,40 @@ namespace Core.Models
 {
     class TransactionRecordRepository : IPersitable<TransactionRecord>
     {
-        public List<TransactionRecord> TxRepository { get; set; }
+        public ObservableCollection<TransactionRecord> TxRepository { get; }
 
         private const string TransactionsPath = "data.json";
 
         public TransactionRecordRepository()
         {
             TxRepository = GetTxRepository();
+            TxRepository.CollectionChanged += OnListChanged;
+        }
+        private void OnListChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                case NotifyCollectionChangedAction.Remove:
+                case NotifyCollectionChangedAction.Replace:
+                    PersistRecords();
+                    break;
+            }
         }
 
-        private List<TransactionRecord> GetTxRepository()
+        private ObservableCollection<TransactionRecord> GetTxRepository()
         {
             if (File.Exists(TransactionsPath))
             {
-                var list = JsonConvert.DeserializeObject<List<TransactionRecord>>(File.ReadAllText(TransactionsPath));
-                var list2 = new List<TransactionRecord>(list.OrderByDescending(item => item.Date));
-                return list2;
+                return JsonConvert.DeserializeObject<ObservableCollection<TransactionRecord>>(File.ReadAllText(TransactionsPath));
             }
-            else return null;
+            else return new ObservableCollection<TransactionRecord>();
         }
 
         public void Add(TransactionRecord txRecord)
         {
             txRecord.Id = TxRepository.Max(n => n.Id) + 1;
             TxRepository.Add(txRecord);
-            PersistRecords();
-
         }
 
         private void PersistRecords()
@@ -47,20 +57,15 @@ namespace Core.Models
 
         public void Remove(TransactionRecord record)
         {
+
             TxRepository.Remove(record);
-            PersistRecords();
         }
 
         public void Modify(TransactionRecord record)
         {
-            var itemToModify = TxRepository.Where(n=>n.Id==record.Id);
+            var itemToModify = TxRepository.Where(n => n.Id == record.Id).First();
             if (itemToModify == null) throw new Exception("not found");
-            var tx = (TransactionRecord)itemToModify;
-            tx.Amount = record.Amount;
-            tx.Category = record.Category;
-            tx.Date = record.Date;
-            tx.Shop = record.Shop;
-            PersistRecords();
+            itemToModify = record;
         }
     }
 }
