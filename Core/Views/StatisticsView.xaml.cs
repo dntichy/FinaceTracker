@@ -83,9 +83,19 @@ namespace Core.Views
 
                 }
 };
+            SeriesCollection2 = new SeriesCollection(dayConfig) {
+                new ColumnSeries {
+                    Values = new ChartValues<XYAxisHelper>(testAggr)
+                }
+            };
         }
 
         public SeriesCollection SeriesCollection
+        {
+            get;
+            private set;
+        }
+        public SeriesCollection SeriesCollection2
         {
             get;
             private set;

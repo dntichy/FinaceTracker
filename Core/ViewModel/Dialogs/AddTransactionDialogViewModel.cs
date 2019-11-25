@@ -35,7 +35,7 @@ namespace Core.ViewModel.Dialogs
             ShoppingPlaceDistinct = new ObservableCollection<Shop>(ShopRepo.Shops);
             Categories = new ObservableCollection<Category>(CategRepo.Categories);
 
-            TxRecord = new TransactionRecord();
+            TxRecord = new TransactionRecord() { Date = DateTime.Now};
             
             CloseTxAddDialogCommand = new SimpleCommand
             {

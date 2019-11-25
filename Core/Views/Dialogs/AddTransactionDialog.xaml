@@ -24,19 +24,16 @@
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Date" />
-                <Label Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Amount" />
-                <Label Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Category" />
-                <Label Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Shopping Place" />
-                <Label Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Description" />
+                <Label Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Amount" />
+                <Label Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Date" />
+                <Label Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Category" />
+                <Label Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Shopping Place" />
+                <Label Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Description" />
                 <DatePicker  Width="180" 
                              Margin="5"  
                              Height="25" 
                              Grid.Row="0" Grid.Column="1" 
-                                SelectedDate="{Binding
-                                Path=TxRecord.Date,
-                                Mode=TwoWay,
-                                TargetNullValue=Today}" 
+                                SelectedDate="{Binding Path=TxRecord.Date, Mode=TwoWay}" 
                              SelectedDateFormat="Long"></DatePicker>
                 <TextBox 
                    Grid.Row="1" Grid.Column="1"
@@ -68,9 +65,7 @@
              SelectedItem="{Binding TxRecord.Shop, Mode=TwoWay}"
                     DisplayMemberPath="ShopName"
              ItemsSource="{Binding ShoppingPlaceDistinct}">
-                    <ComboBox.InputBindings>
-                        <KeyBinding  Key="Enter" Command="{Binding NotImplementedCommand}"/>
-                    </ComboBox.InputBindings>
+           
                 </ComboBox>
                 <!--<TextBox 
                    Grid.Row="3" Grid.Column="1"
