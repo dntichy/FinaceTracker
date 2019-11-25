@@ -66,6 +66,7 @@
              IsEditable="True"
              IsTextSearchEnabled="True"
              SelectedItem="{Binding TxRecord.Shop, Mode=TwoWay}"
+                    DisplayMemberPath="ShopName"
              ItemsSource="{Binding ShoppingPlaceDistinct}">
                     <ComboBox.InputBindings>
                         <KeyBinding  Key="Enter" Command="{Binding NotImplementedCommand}"/>

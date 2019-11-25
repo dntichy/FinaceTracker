@@ -4,9 +4,25 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Core.Views"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBlock>x</TextBlock>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="500" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" HorizontalAlignment="Center"
+                Margin="20,0,0,0"  FontSize="40" VerticalAlignment="Center">Monthly expenses chart</TextBlock>
+        <lvc:CartesianChart Grid.Row="1" Name="TestChart"  Margin="100" Series="{Binding SeriesCollection}" >
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis LabelFormatter="{Binding FormatterForY}" MinValue="0">
+                    <lvc:Axis.Separator>
+                        <lvc:Separator Step="20" />
+                    </lvc:Axis.Separator>
+                </lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
+        
     </Grid>
 </UserControl>
