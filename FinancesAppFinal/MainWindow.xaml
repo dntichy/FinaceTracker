@@ -84,13 +84,17 @@
                             <views:CategoryView />
                         </Controls:HamburgerMenuIconItem.Tag>
                     </Controls:HamburgerMenuIconItem>
-                    
+                    <Controls:HamburgerMenuIconItem Icon="{iconPacks:Material Kind=Store}" Label="Shops">
+                        <Controls:HamburgerMenuIconItem.Tag>
+                            <views:ShopView />
+                        </Controls:HamburgerMenuIconItem.Tag>
+                    </Controls:HamburgerMenuIconItem>
+
                     <Controls:HamburgerMenuIconItem Icon="{iconPacks:Material Kind=ChartBar}" Label="Statistics">
                         <Controls:HamburgerMenuIconItem.Tag>
                             <views:StatisticsView />
                         </Controls:HamburgerMenuIconItem.Tag>
                     </Controls:HamburgerMenuIconItem>
-
                     
                 </Controls:HamburgerMenuItemCollection>
             </Controls:HamburgerMenu.ItemsSource>

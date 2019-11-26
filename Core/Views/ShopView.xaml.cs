@@ -17,15 +17,15 @@ using System.Windows.Shapes;
 namespace Core.Views
 {
     /// <summary>
-    /// Interaction logic for StatisticsView.xaml
+    /// Interaction logic for ShopView.xaml
     /// </summary>
-    public partial class CategoryView : UserControl
+    public partial class ShopView : UserControl
     {
-        CategoryViewModel categoryViewModel = new CategoryViewModel();
-        public CategoryView()
+        ShopViewModel shopViewModel = new ShopViewModel();
+        public ShopView()
         {
             InitializeComponent();
-            DataContext = categoryViewModel;
+            DataContext = shopViewModel;
         }
     }
 }

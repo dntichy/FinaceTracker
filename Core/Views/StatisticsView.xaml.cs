@@ -88,6 +88,17 @@ namespace Core.Views
                     Values = new ChartValues<XYAxisHelper>(testAggr)
                 }
             };
+
+            Func<ChartPoint, string> labelPoint = chartPoint =>
+     string.Format("{0:n0} ({1:P})", chartPoint.Y, chartPoint.Participation);
+            PieChart.Series = new SeriesCollection();
+            PieSeries pie = new PieSeries();
+            pie.Title = "Blue";
+            pie.Values = new ChartValues<double> { Convert.ToDouble(10) };
+            pie.LabelPoint = labelPoint;
+            pie.DataLabels = true;
+            PieChart.Series.Add(pie);
+
         }
 
         public SeriesCollection SeriesCollection
@@ -100,5 +111,6 @@ namespace Core.Views
             get;
             private set;
         }
+     
     }
 }
