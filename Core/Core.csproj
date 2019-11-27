@@ -158,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Months.cs" />
     <Compile Include="Models\Repositories\CategoryRepository.cs" />
     <Compile Include="Models\Interfaces\IPersitable.cs" />
     <Compile Include="ViewModel\CategoryViewModel.cs" />
@@ -184,6 +185,7 @@
       <DependentUpon>HomeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\TransactionRecord.cs" />
+    <Compile Include="Views\PieChartCategoryWrapper.cs" />
     <Compile Include="Views\ShopView.xaml.cs">
       <DependentUpon>ShopView.xaml</DependentUpon>
     </Compile>
