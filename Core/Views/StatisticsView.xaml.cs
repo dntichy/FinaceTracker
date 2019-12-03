@@ -26,6 +26,7 @@ namespace Core.Views
     /// </summary>
     public partial class StatisticsView : UserControl, INotifyPropertyChanged
     {
+        public double TotalMonthlySpent { get; set; }
         public Func<double, string> FormatterForY { get; set; }
         TransactionRecordRepository TransactionRepo = new TransactionRecordRepository();
 
@@ -96,8 +97,9 @@ namespace Core.Views
                     Separator = new LiveCharts.Wpf.Separator()
                     {
                         Step = 1.0,
-                        IsEnabled = false
-                    }
+                        IsEnabled = true
+                    },
+                    MaxValue = 32
 
                 }
 };
@@ -122,7 +124,7 @@ namespace Core.Views
                     Separator = new LiveCharts.Wpf.Separator()
                     {
                         Step = 1.0,
-                        IsEnabled = false
+                        IsEnabled = true
                     }
                 }
 };
@@ -147,6 +149,7 @@ namespace Core.Views
         private void MonthsCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             RegenerateCharts();
+            
         }
 
         private void RegenerateCharts()
@@ -166,7 +169,7 @@ namespace Core.Views
                  .Where(n => GetMonthNameFromMonth(n.Date.Value.Month) == monthTxt)
                  .Where(n => n.Date.Value.Year == year);
 
-            var totalSpentInGivenInterval = Enumerable.Range(0, DateTime.DaysInMonth(year, (int)monthEnum) - 1)
+            var totalSpentInGivenInterval = Enumerable.Range(0, DateTime.DaysInMonth(year, (int)monthEnum))
             .Select(a => MinDate.AddDays(a))
             .GroupJoin(filtered,
             outer => outer,
@@ -176,6 +179,9 @@ namespace Core.Views
                 x = outer.Day,
                 y = group.Sum(n => n.Amount)
             }).ToList();
+
+            TotalMonthlySpent = totalSpentInGivenInterval.Sum(n => n.y);
+            OnPropertyChanged("TotalMonthlySpent");
 
             var amountPerCategories = TransactionRepo.TxRepository
              .Where(n => GetMonthNameFromMonth(n.Date.Value.Month) == monthTxt).Where(n => n.Date.Value.Year == year)
@@ -188,8 +194,9 @@ namespace Core.Views
              });
 
 
-            CreateLineChart(totalSpentInGivenInterval);
             CreateCollumnChart(totalSpentInGivenInterval);
+            CreateLineChart(totalSpentInGivenInterval);
+            
             CreatePieChart(amountPerCategories);
         }
 
