@@ -4,6 +4,7 @@ using LiveCharts.Configurations;
 using LiveCharts.Wpf;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -23,11 +24,18 @@ namespace Core.Views
     /// <summary>
     /// Interaction logic for StatisticsView.xaml
     /// </summary>
-    public partial class StatisticsView : UserControl
+    public partial class StatisticsView : UserControl, INotifyPropertyChanged
     {
         public Func<double, string> FormatterForY { get; set; }
         TransactionRecordRepository TransactionRepo = new TransactionRecordRepository();
-       
+
+
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+        private void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            handler(this, new PropertyChangedEventArgs(name));
+        }
 
         public StatisticsView()
         {
@@ -39,40 +47,7 @@ namespace Core.Views
 
             FormatterForY = value => value + " €";
 
-
-            var month = monthsCombobox.Text;
-            var year = int.Parse(yearComboBox.Text);
-            Enum.TryParse(month, true, out Months mnth);
-
-            DateTime MinDate = new DateTime(year, (int)mnth, 1);
-
-            var totalSpentInGivenInterval = Enumerable.Range(0, DateTime.DaysInMonth(year, (int)mnth)-1)
-            .Select(a => MinDate.AddDays(a))
-            .Where(n => GetMonthNameFromMonth(n.Date.Month) == month).Where(n => n.Date.Year == year)
-            .GroupJoin(TransactionRepo.TxRepository,
-            outer => outer,
-            inner => inner.Date,
-            (outer, group) => new XYAxisHelper
-            {
-                x = outer.Day,
-                y = group.Sum(n => n.Amount)
-            });
-
-
-            var amountPerCategories = TransactionRepo.TxRepository
-             .Where(n => n.Date >= MinDate)
-             .GroupBy(n => n.Category.Name)
-             .Select(group => new PieChartCategoryWrapper
-             {
-                 category = group.Key,
-                 sumAmounts = group.Sum(x => x.Amount),
-                 color = group.Select(n => n.Category.Color)
-             });
-
-
-            CreateLineChart(totalSpentInGivenInterval);
-            CreateCollumnChart(totalSpentInGivenInterval);
-            CreatePieChart(amountPerCategories);
+            RegenerateCharts();
         }
 
 
@@ -107,26 +82,13 @@ namespace Core.Views
               .Xy<XYAxisHelper>()
                         .X(model => model.x)
                         .Y(model => model.y);
-            SeriesCollection2 = new SeriesCollection(dayConfig) {
+            ColumnChart.Series = new SeriesCollection(dayConfig) {
                 new ColumnSeries {
                     Values = new ChartValues<XYAxisHelper>(totalSpentInGivenInterval)
                 }
             };
-        }
 
-        private void CreateLineChart(IEnumerable<XYAxisHelper> totalSpentInGivenInterval)
-        {
-            CartesianMapper<XYAxisHelper> dayConfig = Mappers
-              .Xy<XYAxisHelper>()
-                        .X(model => model.x)
-                        .Y(model => model.y);
-            SeriesCollection = new SeriesCollection(dayConfig) {
-                new LineSeries {
-                    Values = new ChartValues<XYAxisHelper>(totalSpentInGivenInterval)
-                }
-            };
-
-            TestChart.AxisX = new AxesCollection()
+            ColumnChart.AxisX = new AxesCollection()
 {
                 new Axis()
                 {
@@ -141,35 +103,99 @@ namespace Core.Views
 };
         }
 
+        private void CreateLineChart(IEnumerable<XYAxisHelper> totalSpentInGivenInterval)
+        {
+            CartesianMapper<XYAxisHelper> dayConfig = Mappers
+              .Xy<XYAxisHelper>()
+                        .X(model => model.x)
+                        .Y(model => model.y);
+            LineChart.Series = new SeriesCollection(dayConfig) {
+                new LineSeries {
+                    Values = new ChartValues<XYAxisHelper>(totalSpentInGivenInterval)
+                }
+            };
+            LineChart.AxisX = new AxesCollection()
+{
+                new Axis()
+                {
+                    Title = "Day of month",
+                    Separator = new LiveCharts.Wpf.Separator()
+                    {
+                        Step = 1.0,
+                        IsEnabled = false
+                    }
+                }
+};
+        }
+
         private void PrepareYearsCombobox()
         {
             yearComboBox.ItemsSource = Enumerable.Range(2018, DateTime.Now.Year - 2018 + 1).ToList();
             yearComboBox.SelectedItem = DateTime.Now.Year;
         }
 
-        private void RefreshChartsAccordingCombBoxes()
-        {
 
-        }
 
         private void PrepareMonthCombobox()
         {
             monthsCombobox.ItemsSource = CultureInfo.InvariantCulture.DateTimeFormat
                                                      .MonthNames.Take(12).ToList();
             monthsCombobox.SelectedItem = CultureInfo.InvariantCulture.DateTimeFormat
-                                                    .MonthNames[DateTime.Now.AddMonths(-1).Month - 1];
+                                                    .MonthNames[DateTime.Now.AddMonths(-1).Month];
         }
 
-        public SeriesCollection SeriesCollection
+        private void MonthsCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            get;
-            private set;
-        }
-        public SeriesCollection SeriesCollection2
-        {
-            get;
-            private set;
+            RegenerateCharts();
         }
 
+        private void RegenerateCharts()
+        {
+            if (monthsCombobox.SelectedItem == null || yearComboBox.SelectedItem == null) return;
+
+            var monthTxt = monthsCombobox.SelectedItem.ToString();
+            var yearTxt = yearComboBox.SelectedItem.ToString();
+
+            var year = int.Parse(yearTxt);
+            Enum.TryParse(monthTxt, true, out Months monthEnum);
+
+            DateTime MinDate = new DateTime(year, (int)monthEnum, 1);
+
+
+            var filtered = TransactionRepo.TxRepository
+                 .Where(n => GetMonthNameFromMonth(n.Date.Value.Month) == monthTxt)
+                 .Where(n => n.Date.Value.Year == year);
+
+            var totalSpentInGivenInterval = Enumerable.Range(0, DateTime.DaysInMonth(year, (int)monthEnum) - 1)
+            .Select(a => MinDate.AddDays(a))
+            .GroupJoin(filtered,
+            outer => outer,
+            inner => inner.Date,
+            (outer, group) => new XYAxisHelper
+            {
+                x = outer.Day,
+                y = group.Sum(n => n.Amount)
+            }).ToList();
+
+            var amountPerCategories = TransactionRepo.TxRepository
+             .Where(n => GetMonthNameFromMonth(n.Date.Value.Month) == monthTxt).Where(n => n.Date.Value.Year == year)
+             .GroupBy(n => n.Category.Name)
+             .Select(group => new PieChartCategoryWrapper
+             {
+                 category = group.Key,
+                 sumAmounts = group.Sum(x => x.Amount),
+                 color = group.Select(n => n.Category.Color)
+             });
+
+
+            CreateLineChart(totalSpentInGivenInterval);
+            CreateCollumnChart(totalSpentInGivenInterval);
+            CreatePieChart(amountPerCategories);
+        }
+
+        private void YearComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RegenerateCharts();
+        }
     }
 }
