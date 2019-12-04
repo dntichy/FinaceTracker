@@ -149,7 +149,7 @@ namespace Core.Views
         private void MonthsCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             RegenerateCharts();
-            
+
         }
 
         private void RegenerateCharts()
@@ -170,13 +170,13 @@ namespace Core.Views
                  .Where(n => n.Date.Value.Year == year);
 
             var totalSpentInGivenInterval = Enumerable.Range(0, DateTime.DaysInMonth(year, (int)monthEnum))
-            .Select(a => MinDate.AddDays(a))
+            .Select(a => MinDate.AddDays(a).Day)
             .GroupJoin(filtered,
             outer => outer,
-            inner => inner.Date,
+            inner => inner.Date.Value.Day,
             (outer, group) => new XYAxisHelper
             {
-                x = outer.Day,
+                x = outer,
                 y = group.Sum(n => n.Amount)
             }).ToList();
 
@@ -196,7 +196,7 @@ namespace Core.Views
 
             CreateCollumnChart(totalSpentInGivenInterval);
             CreateLineChart(totalSpentInGivenInterval);
-            
+
             CreatePieChart(amountPerCategories);
         }
 

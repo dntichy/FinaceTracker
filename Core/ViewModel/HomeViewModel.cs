@@ -122,13 +122,13 @@ namespace Core.ViewModels
         public void ProcessUserInput(TransactionRecord txRecord)
         {
             Transactions.Add(txRecord);
-            ReorderTransactionList(); // todo hook onchange event => persist  and  reorder
+            //ReorderTransactionList(); // todo hook onchange event => persist  and  reorder
         }
 
         private void ReorderTransactionList()
         {
-            //var list = new ObservableCollection<TransactionRecord>(Transactions.OrderByDescending(item => item.Date));
-            //Transactions = list;
+            var list = new ObservableCollection<TransactionRecord>(Transactions.OrderByDescending(item => item.Date));
+            Transactions = list;
 
         }
     }
