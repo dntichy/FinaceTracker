@@ -80,15 +80,15 @@
         
         <StackPanel Grid.Row="0" Orientation="Horizontal"  Margin="0,0,10,0" HorizontalAlignment="Right">
 
-            <Button Command="{Binding Path = AddNewTxCommand }"  ToolTip="Add a new transaction" Focusable="False" Width="25" Height="25" BorderThickness="0" Background="{x:Null}">
+            <Button Command="{Binding Path = AddNewCommand }"  ToolTip="Add a new transaction" Focusable="False" Width="25" Height="25" BorderThickness="0" Background="{x:Null}">
                 <iconPacks:PackIconMaterial Kind="Plus" VerticalAlignment="Center" HorizontalAlignment="Center" />
             </Button>
 
-            <Button Command="{Binding Path= RemoveTxCommand}" ToolTip="Remove a transaction" Focusable="False" Width="25" Height="25" BorderThickness="0" Background="{x:Null}">
+            <Button Command="{Binding Path= RemoveCommand}" ToolTip="Remove a transaction" Focusable="False" Width="25" Height="25" BorderThickness="0" Background="{x:Null}">
                 <iconPacks:PackIconMaterial Kind="Minus" VerticalAlignment="Center" HorizontalAlignment="Center" />
             </Button>
 
-            <Button Command="{Binding  Path= EditTxCommand}" ToolTip="Change a transaction" Focusable="False" Width="25" Height="25" BorderThickness="0" Background="{x:Null}">
+            <Button Command="{Binding  Path= EditCommand}" ToolTip="Change a transaction" Focusable="False" Width="25" Height="25" BorderThickness="0" Background="{x:Null}">
                 <iconPacks:PackIconMaterial Kind="Pencil" VerticalAlignment="Center" HorizontalAlignment="Center" />
             </Button>
         </StackPanel>

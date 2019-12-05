@@ -1,17 +1,8 @@
 ﻿using Core.Models;
 using Core.Views;
-using GalaSoft.MvvmLight.Command;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace Core.ViewModel.Dialogs
 {
@@ -19,7 +10,7 @@ namespace Core.ViewModel.Dialogs
     {
         public ObservableCollection<Category> Categories { get; set; }
         public ObservableCollection<Shop> ShoppingPlaceDistinct { get; set; }
-        public TransactionRecord TxRecord { get; set; }
+        public Transaction TxRecord { get; set; }
 
         public bool Cancel { get; set; }
 
@@ -35,7 +26,7 @@ namespace Core.ViewModel.Dialogs
             ShoppingPlaceDistinct = new ObservableCollection<Shop>(ShopRepo.Shops);
             Categories = new ObservableCollection<Category>(CategRepo.Categories);
 
-            TxRecord = new TransactionRecord() { Date = DateTime.Now};
+            TxRecord = new Transaction() { Date = DateTime.Now};
             
             CloseTxAddDialogCommand = new SimpleCommand
             {

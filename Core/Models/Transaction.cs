@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace Core.Views
 {
-    public class TransactionRecord : INotifyPropertyChanged
+    public class Transaction : INotifyPropertyChanged
     {
         public int Id { get; set; }
         public DateTime? Date { get; set; }
@@ -13,7 +13,7 @@ namespace Core.Views
         public string Description { get; set; }
         public Shop Shop { get; set; }
 
-        public TransactionRecord()
+        public Transaction()
         {
             Shop = new Shop();
             Category = new Category();

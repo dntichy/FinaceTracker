@@ -184,7 +184,7 @@
     <Compile Include="Views\HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\TransactionRecord.cs" />
+    <Compile Include="Models\Transaction.cs" />
     <Compile Include="Views\PieChartCategoryWrapper.cs" />
     <Compile Include="Views\ShopView.xaml.cs">
       <DependentUpon>ShopView.xaml</DependentUpon>

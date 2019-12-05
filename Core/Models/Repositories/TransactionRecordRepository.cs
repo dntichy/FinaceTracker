@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Core.Models
 {
-    class TransactionRecordRepository : IPersitable<TransactionRecord>
+    class TransactionRecordRepository : IPersitable<Transaction>
     {
-        public ObservableCollection<TransactionRecord> TxRepository { get; }
+        public ObservableCollection<Transaction> TxRepository { get; }
 
         private const string TransactionsPath = "data.json";
 
@@ -34,16 +34,16 @@ namespace Core.Models
             }
         }
 
-        private ObservableCollection<TransactionRecord> GetTxRepository()
+        private ObservableCollection<Transaction> GetTxRepository()
         {
             if (File.Exists(TransactionsPath))
             {
-                return JsonConvert.DeserializeObject<ObservableCollection<TransactionRecord>>(File.ReadAllText(TransactionsPath));
+                return JsonConvert.DeserializeObject<ObservableCollection<Transaction>>(File.ReadAllText(TransactionsPath));
             }
-            else return new ObservableCollection<TransactionRecord>();
+            else return new ObservableCollection<Transaction>();
         }
 
-        public void Add(TransactionRecord txRecord)
+        public void Add(Transaction txRecord)
         {
             txRecord.Id = TxRepository.Max(n => n.Id) + 1;
             TxRepository.Add(txRecord);
@@ -55,13 +55,13 @@ namespace Core.Models
             File.WriteAllText(TransactionsPath, json);
         }
 
-        public void Remove(TransactionRecord record)
+        public void Remove(Transaction record)
         {
 
             TxRepository.Remove(record);
         }
 
-        public void Modify(TransactionRecord record)
+        public void Modify(Transaction record)
         {
             var itemToModify = TxRepository.Where(n => n.Id == record.Id).First();
             if (itemToModify == null) throw new Exception("not found");

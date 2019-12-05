@@ -3,16 +3,93 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:local="clr-namespace:Core.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <DataTemplate x:Key="templateListBoxItem">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200"></ColumnDefinition>
+                    <ColumnDefinition Width="200"></ColumnDefinition>
+                    <ColumnDefinition Width="200"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Border Grid.Column="0" 
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Margin="0,0,30,0">
+                    <Image 
+                       Stretch="Fill" Width="100">
+                        <Image.Style>
+                            <Style TargetType="{x:Type Image}">
+                                <Setter Property="Source" Value="{Binding Path=Shop.ImagePath}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Shop.ImagePath}" Value="{x:Null}">
+                                        <Setter Property="Source" Value="../Company Logos/NOTFOUND.png" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
+                </Border>
+                <TextBlock Text="{Binding Path=Date, StringFormat={}{0:dd/MM/yyyy}}"
+                       Grid.Column="1"
+                       Grid.Row="0"></TextBlock>
+                <TextBlock Text="{Binding Path=Category.Name}"
+                       Grid.Column="1"
+                       Grid.Row="1"></TextBlock>
+                <TextBlock Text="{Binding Path=Amount}" 
+                           FontWeight="Bold" FontSize="25"
+                       Grid.Column="2"  VerticalAlignment="Center"
+                       Grid.RowSpan="2"></TextBlock>
+
+            </Grid>
+        </DataTemplate>
+        <Style x:Key="styleListBox" TargetType="{x:Type ListBox}">
+            <Setter Property="ItemTemplate" Value="{StaticResource ResourceKey=templateListBoxItem}"></Setter>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="48" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
+        <ListView Grid.Row="1" Style="{StaticResource ResourceKey=styleListBox}" Margin="0" ItemsSource="{Binding Shops}"  SelectedItem="{Binding SelectedShop}">
+            <ListView.Resources>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="BorderThickness" Value="0,0,0,0.1"  />
+                    <Setter Property="BorderBrush" Value="Black"  />
+                    <Setter Property="FontSize" Value="16" />
+                    <Setter Property="FontFamily" Value="Andalus" />
+                </Style>
+            </ListView.Resources>
+        </ListView>
+
         <TextBlock  Grid.Row="0" Grid.ColumnSpan="3" VerticalAlignment="Center" FontWeight="Bold" 
                     FontSize="22" HorizontalAlignment="Left" Margin="20,0,0,0">SHOPS</TextBlock>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal"  Margin="0,0,10,0" HorizontalAlignment="Right">
+
+            <Button Command="{Binding Path = AddNewCommand }"  ToolTip="Add a new transaction" Focusable="False" Width="25" Height="25" BorderThickness="0" Background="{x:Null}">
+                <iconPacks:PackIconMaterial Kind="Plus" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            </Button>
+
+            <Button Command="{Binding Path= RemoveCommand}" ToolTip="Remove a transaction" Focusable="False" Width="25" Height="25" BorderThickness="0" Background="{x:Null}">
+                <iconPacks:PackIconMaterial Kind="Minus" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            </Button>
+
+            <Button Command="{Binding  Path= EditCommand}" ToolTip="Change a transaction" Focusable="False" Width="25" Height="25" BorderThickness="0" Background="{x:Null}">
+                <iconPacks:PackIconMaterial Kind="Pencil" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            </Button>
+        </StackPanel>
     </Grid>
+
+
+
 </UserControl>

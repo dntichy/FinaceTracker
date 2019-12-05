@@ -33,8 +33,8 @@ namespace Core.ViewModels
             handler(this, new PropertyChangedEventArgs(name));
         }
 
-        private ObservableCollection<TransactionRecord> transactions;
-        public ObservableCollection<TransactionRecord> Transactions
+        private ObservableCollection<Transaction> transactions;
+        public ObservableCollection<Transaction> Transactions
         {
             get { return transactions; }
             set
@@ -43,23 +43,23 @@ namespace Core.ViewModels
                 OnPropertyChanged("Transactions");
             }
         }
-        public TransactionRecord SelectedTransaction { get; set; }
+        public Transaction SelectedTransaction { get; set; }
 
-        public ICommand AddNewTxCommand { get; set; }
+        public ICommand AddNewCommand { get; set; }
 
-        public ICommand RemoveTxCommand { get; set; }
+        public ICommand RemoveCommand { get; set; }
 
-        public ICommand EditTxCommand { get; set; }
+        public ICommand EditCommand { get; set; }
 
         public HomeViewModel(IDialogCoordinator dialogCoordinator)
         {
             this.dialogCoordinator = dialogCoordinator;
             TransactionRecordRepository = new TransactionRecordRepository();
-            Transactions = new ObservableCollection<TransactionRecord>(TransactionRecordRepository.TxRepository);
-            Transactions.CollectionChanged += OnListChanged;
-            AddNewTxCommand = new RelayCommand<object>(AddNewTx);
-            RemoveTxCommand = new RelayCommand<object>(RemoveTxAsync);
-            EditTxCommand = new RelayCommand<object>(EditTx);
+            Transactions = new ObservableCollection<Transaction>(TransactionRecordRepository.TxRepository);
+            ReorderTransactionList();
+            AddNewCommand = new RelayCommand<object>(AddNewTx);
+            RemoveCommand = new RelayCommand<object>(RemoveTxAsync);
+            EditCommand = new RelayCommand<object>(EditTx);
         }
 
         private void OnListChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -67,11 +67,11 @@ namespace Core.ViewModels
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    foreach (TransactionRecord item in e.NewItems)
+                    foreach (Transaction item in e.NewItems)
                         TransactionRecordRepository.Add(item);
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    foreach (TransactionRecord item in e.OldItems)
+                    foreach (Transaction item in e.OldItems)
                         TransactionRecordRepository.Remove(item);
                     break;
                 case NotifyCollectionChangedAction.Replace:
@@ -119,14 +119,14 @@ namespace Core.ViewModels
             await dialogCoordinator.ShowMetroDialogAsync(this, custom_dialog);
         }
 
-        public void ProcessUserInput(TransactionRecord txRecord)
+        public void ProcessUserInput(Transaction txRecord)
         {
             Transactions.Add(txRecord);
         }
 
         private void ReorderTransactionList()
         {
-            var list = new ObservableCollection<TransactionRecord>(Transactions.OrderByDescending(item => item.Date));
+            var list = new ObservableCollection<Transaction>(Transactions.OrderByDescending(item => item.Date));
             Transactions = list;
             Transactions.CollectionChanged += OnListChanged;
 
