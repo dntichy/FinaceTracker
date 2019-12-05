@@ -55,7 +55,7 @@ namespace Core.ViewModels
         {
             this.dialogCoordinator = dialogCoordinator;
             TransactionRecordRepository = new TransactionRecordRepository();
-            transactions = new ObservableCollection<TransactionRecord>(TransactionRecordRepository.TxRepository);
+            Transactions = new ObservableCollection<TransactionRecord>(TransactionRecordRepository.TxRepository);
             Transactions.CollectionChanged += OnListChanged;
             AddNewTxCommand = new RelayCommand<object>(AddNewTx);
             RemoveTxCommand = new RelayCommand<object>(RemoveTxAsync);
@@ -77,6 +77,7 @@ namespace Core.ViewModels
                 case NotifyCollectionChangedAction.Replace:
                     break;
             }
+            ReorderTransactionList();
         }
 
         private void EditTx(object obj)
@@ -93,7 +94,6 @@ namespace Core.ViewModels
                if(result == MessageDialogResult.Affirmative)
                 {
                     Transactions.Remove(SelectedTransaction);
-                    ReorderTransactionList();
                 }
 
             }
@@ -122,13 +122,13 @@ namespace Core.ViewModels
         public void ProcessUserInput(TransactionRecord txRecord)
         {
             Transactions.Add(txRecord);
-            //ReorderTransactionList(); // todo hook onchange event => persist  and  reorder
         }
 
         private void ReorderTransactionList()
         {
             var list = new ObservableCollection<TransactionRecord>(Transactions.OrderByDescending(item => item.Date));
             Transactions = list;
+            Transactions.CollectionChanged += OnListChanged;
 
         }
     }
