@@ -13,7 +13,7 @@ namespace Core.Models
 {
     class ShopRepository : IPersitable<Shop>
     {
-        public ObservableCollection<Shop> Shops { get; set; }
+        public ObservableCollection<Shop> Shops { get;  }
         private const string TransactionsPath = "ShoppingPlaces.json";
 
         public ShopRepository()
@@ -51,21 +51,21 @@ namespace Core.Models
 
         public void Add(Shop record)
         {
+            record.Id = Shops.Max(n => n.Id) + 1;
             Shops.Add(record);
-            PersistRecords();
         }
 
         public void Remove(Shop record)
         {
             Shops.Remove(record);
-            PersistRecords();
         }
 
         public void Modify(Shop record)
         {
             var shopToModify = Shops.Where(n => n.ShopName == record.ShopName).First();
             shopToModify = record;
-            PersistRecords();
         }
+
+
     }
 }

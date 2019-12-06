@@ -13,14 +13,14 @@ namespace Core.Models
 {
     class TransactionRecordRepository : IPersitable<Transaction>
     {
-        public ObservableCollection<Transaction> TxRepository { get; }
+        public ObservableCollection<Transaction> Transactions { get; }
 
         private const string TransactionsPath = "data.json";
 
         public TransactionRecordRepository()
         {
-            TxRepository = GetTxRepository();
-            TxRepository.CollectionChanged += OnListChanged;
+            Transactions = GetTxRepository();
+            Transactions.CollectionChanged += OnListChanged;
         }
         private void OnListChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -45,25 +45,25 @@ namespace Core.Models
 
         public void Add(Transaction txRecord)
         {
-            txRecord.Id = TxRepository.Max(n => n.Id) + 1;
-            TxRepository.Add(txRecord);
+            txRecord.Id = Transactions.Max(n => n.Id) + 1;
+            Transactions.Add(txRecord);
         }
 
         private void PersistRecords()
         {
-            string json = JsonConvert.SerializeObject(TxRepository, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(Transactions, Formatting.Indented);
             File.WriteAllText(TransactionsPath, json);
         }
 
         public void Remove(Transaction record)
         {
 
-            TxRepository.Remove(record);
+            Transactions.Remove(record);
         }
 
         public void Modify(Transaction record)
         {
-            var itemToModify = TxRepository.Where(n => n.Id == record.Id).First();
+            var itemToModify = Transactions.Where(n => n.Id == record.Id).First();
             if (itemToModify == null) throw new Exception("not found");
             itemToModify = record;
         }

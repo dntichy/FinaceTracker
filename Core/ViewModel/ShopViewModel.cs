@@ -1,6 +1,8 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Command;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -13,8 +15,8 @@ namespace Core.Models.Repositories
     {
         private ShopRepository ShopRepository { get; set; }
 
-        private ObservableCollection<Category> shops;
-        public ObservableCollection<Category> Shops
+        private ObservableCollection<Shop> shops;
+        public ObservableCollection<Shop> Shops
         {
             get { return shops; }
             set
@@ -36,6 +38,42 @@ namespace Core.Models.Repositories
         {
             PropertyChangedEventHandler handler = PropertyChanged;
             handler(this, new PropertyChangedEventArgs(name));
+        }
+        public ShopViewModel()
+        {
+            ShopRepository = new ShopRepository();
+            Shops = new ObservableCollection<Shop>(ShopRepository.Shops);
+            ReorderShopList();
+            AddNewCommand = new RelayCommand<object>(AddNewShop);
+            RemoveCommand = new RelayCommand<object>(RemoveShop);
+            EditCommand = new RelayCommand<object>(EditShop);
+        }
+
+        private void AddNewShop(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void RemoveShop(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void EditShop(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ReorderShopList()
+        {
+            var list = new ObservableCollection<Shop>(Shops.OrderByDescending(item => item.Id));
+            Shops = list;
+            Shops.CollectionChanged += OnListChanged;
+        }
+
+        private void OnListChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }

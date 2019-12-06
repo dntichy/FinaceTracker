@@ -50,6 +50,7 @@ namespace Core.Models
 
         public void Add(Category record)
         {
+            record.Id = Categories.Max(n => n.Id) + 1;
             Categories.Add(record);
         }
 
