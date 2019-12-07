@@ -1,4 +1,7 @@
-﻿using GalaSoft.MvvmLight.Command;
+﻿using Core.ViewModel.Dialogs;
+using Core.Views.Dialogs;
+using GalaSoft.MvvmLight.Command;
+using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,6 +16,7 @@ namespace Core.Models.Repositories
 {
     class ShopViewModel : INotifyPropertyChanged
     {
+        private IDialogCoordinator dialogCoordinator;
         private ShopRepository ShopRepository { get; set; }
 
         private ObservableCollection<Shop> shops;
@@ -39,8 +43,9 @@ namespace Core.Models.Repositories
             PropertyChangedEventHandler handler = PropertyChanged;
             handler(this, new PropertyChangedEventArgs(name));
         }
-        public ShopViewModel()
+        public ShopViewModel(IDialogCoordinator dialogCoordinator)
         {
+            this.dialogCoordinator = dialogCoordinator;
             ShopRepository = new ShopRepository();
             Shops = new ObservableCollection<Shop>(ShopRepository.Shops);
             ReorderShopList();
@@ -51,7 +56,25 @@ namespace Core.Models.Repositories
 
         private void AddNewShop(object obj)
         {
-            throw new NotImplementedException();
+            GetUserInputAsync();
+        }
+        private async Task GetUserInputAsync()
+        {
+
+            var categoryDialog = new ShopDialog();
+            var dialogViewModel = new ShopDialogViewModel(async instance =>
+            {
+                await dialogCoordinator.HideMetroDialogAsync(this, categoryDialog);
+                if (!instance.Cancel) ProcessUserInput(instance.Shop);
+            });
+            categoryDialog.DataContext = dialogViewModel;
+
+            await dialogCoordinator.ShowMetroDialogAsync(this, categoryDialog);
+        }
+
+        public void ProcessUserInput(Shop shop)
+        {
+            Shops.Add(shop);
         }
 
         private void RemoveShop(object obj)

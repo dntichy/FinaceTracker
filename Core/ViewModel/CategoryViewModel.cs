@@ -1,4 +1,7 @@
-﻿using GalaSoft.MvvmLight.Command;
+﻿using Core.ViewModel.Dialogs;
+using Core.Views.Dialogs;
+using GalaSoft.MvvmLight.Command;
+using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,6 +16,7 @@ namespace Core.Models.Repositories
 {
     class CategoryViewModel : INotifyPropertyChanged
     {
+        private IDialogCoordinator dialogCoordinator;
         private CategoryRepository CategoryRepository { get; set; }
 
         private ObservableCollection<Category> categories;
@@ -40,8 +44,9 @@ namespace Core.Models.Repositories
             handler(this, new PropertyChangedEventArgs(name));
         }
 
-        public CategoryViewModel()
+        public CategoryViewModel(IDialogCoordinator dialogCoordinator)
         {
+            this.dialogCoordinator = dialogCoordinator;
             CategoryRepository = new CategoryRepository();
             Categories = new ObservableCollection<Category>(CategoryRepository.Categories);
             ReorderCategoryList();
@@ -52,7 +57,25 @@ namespace Core.Models.Repositories
 
         private void AddNewCategory(object obj)
         {
-            throw new NotImplementedException();
+            GetUserInputAsync();
+        }
+        private async Task GetUserInputAsync()
+        {
+
+            var categoryDialog = new CategoryDialog();
+            var dialogViewModel = new CategoryDialogViewModel(async instance =>
+            {
+                await dialogCoordinator.HideMetroDialogAsync(this, categoryDialog);
+                if (!instance.Cancel) ProcessUserInput(instance.Category);
+            });
+            categoryDialog.DataContext = dialogViewModel;
+
+            await dialogCoordinator.ShowMetroDialogAsync(this, categoryDialog);
+        }
+
+        public void ProcessUserInput(Category category)
+        {
+            Categories.Add(category);
         }
 
         private void RemoveCategory(object obj)

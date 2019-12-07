@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace Core.ViewModel.Dialogs
 {
-    class AddTransactionDialogViewModel
+    class TransactionDialogViewModel
     {
         public ObservableCollection<Category> Categories { get; set; }
         public ObservableCollection<Shop> ShoppingPlaceDistinct { get; set; }
@@ -18,7 +18,7 @@ namespace Core.ViewModel.Dialogs
         public ICommand ConfirmTxAddDialogCommand { get; set; }
 
 
-        public AddTransactionDialogViewModel(Action<AddTransactionDialogViewModel> closeHandler)
+        public TransactionDialogViewModel(Action<TransactionDialogViewModel> closeHandler)
         {
             Cancel = false;
             var CategRepo = new CategoryRepository();

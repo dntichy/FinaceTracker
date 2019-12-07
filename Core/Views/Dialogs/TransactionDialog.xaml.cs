@@ -21,9 +21,9 @@ namespace Core.Views.Dialogs
     /// <summary>
     /// Interaction logic for AddTransactionDialog.xaml
     /// </summary>
-    public partial class AddTransactionDialog : CustomDialog
+    public partial class TransactionDialog : CustomDialog
     {
-        public AddTransactionDialog()
+        public TransactionDialog()
         {
             InitializeComponent();
         }

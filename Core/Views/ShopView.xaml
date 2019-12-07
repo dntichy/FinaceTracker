@@ -27,9 +27,9 @@
                        Stretch="Fill" Width="100">
                         <Image.Style>
                             <Style TargetType="{x:Type Image}">
-                                <Setter Property="Source" Value="{Binding Path=Shop.ImagePath}" />
+                                <Setter Property="Source" Value="{Binding Path=ImagePath}" />
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Shop.ImagePath}" Value="{x:Null}">
+                                    <DataTrigger Binding="{Binding ImagePath}" Value="{x:Null}">
                                         <Setter Property="Source" Value="../Company Logos/NOTFOUND.png" />
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -37,13 +37,10 @@
                         </Image.Style>
                     </Image>
                 </Border>
-                <TextBlock Text="{Binding Path=Date, StringFormat={}{0:dd/MM/yyyy}}"
-                       Grid.Column="1"
-                       Grid.Row="0"></TextBlock>
-                <TextBlock Text="{Binding Path=Category.Name}"
+                <TextBlock Text="{Binding Path=Id}"
                        Grid.Column="1"
                        Grid.Row="1"></TextBlock>
-                <TextBlock Text="{Binding Path=Amount}" 
+                <TextBlock Text="{Binding Path=ShopName}" 
                            FontWeight="Bold" FontSize="25"
                        Grid.Column="2"  VerticalAlignment="Center"
                        Grid.RowSpan="2"></TextBlock>

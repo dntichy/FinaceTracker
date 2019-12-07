@@ -50,7 +50,7 @@ namespace Core.ViewModels
         {
             this.dialogCoordinator = dialogCoordinator;
             TransactionRecordRepository = new TransactionRecordRepository();
-            Transactions = new ObservableCollection<Transaction>(TransactionRecordRepository.TxRepository);
+            Transactions = new ObservableCollection<Transaction>(TransactionRecordRepository.Transactions);
             ReorderTransactionList();
             AddNewCommand = new RelayCommand<object>(AddNewTx);
             RemoveCommand = new RelayCommand<object>(RemoveTxAsync);
@@ -103,15 +103,15 @@ namespace Core.ViewModels
         private async Task GetUserInputAsync()
         {
 
-            var custom_dialog = new AddTransactionDialog();
-            var dialogViewModel = new AddTransactionDialogViewModel(async instance =>
+            var txDialog = new TransactionDialog();
+            var dialogViewModel = new TransactionDialogViewModel(async instance =>
             {
-                await dialogCoordinator.HideMetroDialogAsync(this, custom_dialog);
+                await dialogCoordinator.HideMetroDialogAsync(this, txDialog);
                 if (!instance.Cancel) ProcessUserInput(instance.TxRecord);
             });
-            custom_dialog.DataContext = dialogViewModel;
+            txDialog.DataContext = dialogViewModel;
 
-            await dialogCoordinator.ShowMetroDialogAsync(this, custom_dialog);
+            await dialogCoordinator.ShowMetroDialogAsync(this, txDialog);
         }
 
         public void ProcessUserInput(Transaction txRecord)

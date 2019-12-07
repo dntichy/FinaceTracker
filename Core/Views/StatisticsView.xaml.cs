@@ -7,17 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Core.Views
 {
@@ -165,7 +155,7 @@ namespace Core.Views
             DateTime MinDate = new DateTime(year, (int)monthEnum, 1);
 
 
-            var filtered = TransactionRepo.TxRepository
+            var filtered = TransactionRepo.Transactions
                  .Where(n => GetMonthNameFromMonth(n.Date.Value.Month) == monthTxt)
                  .Where(n => n.Date.Value.Year == year);
 
@@ -183,7 +173,7 @@ namespace Core.Views
             TotalMonthlySpent = totalSpentInGivenInterval.Sum(n => n.y);
             OnPropertyChanged("TotalMonthlySpent");
 
-            var amountPerCategories = TransactionRepo.TxRepository
+            var amountPerCategories = TransactionRepo.Transactions
              .Where(n => GetMonthNameFromMonth(n.Date.Value.Month) == monthTxt).Where(n => n.Date.Value.Year == year)
              .GroupBy(n => n.Category.Name)
              .Select(group => new PieChartCategoryWrapper

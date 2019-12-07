@@ -162,21 +162,29 @@
     <Compile Include="Models\Repositories\CategoryRepository.cs" />
     <Compile Include="Models\Interfaces\IPersitable.cs" />
     <Compile Include="ViewModel\CategoryViewModel.cs" />
+    <Compile Include="ViewModel\Dialogs\ShopDialogViewModel.cs" />
+    <Compile Include="ViewModel\Dialogs\CategoryDialogViewModel.cs" />
     <Compile Include="ViewModel\ShopViewModel.cs" />
     <Compile Include="Models\Shop.cs" />
     <Compile Include="Models\Repositories\ShopRepository.cs" />
     <Compile Include="Models\Repositories\TransactionRecordRepository.cs" />
     <Compile Include="SelectedItemToContentConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModel\Dialogs\AddTransactionDialogViewModel.cs" />
-    <Compile Include="ViewModel\Dialogs\SimpleCommand.cs" />
+    <Compile Include="ViewModel\Dialogs\TransactionDialogViewModel.cs" />
+    <Compile Include="ViewModel\Commands\SimpleCommand.cs" />
     <Compile Include="ViewModel\HomeViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="Views\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Dialogs\AddTransactionDialog.xaml.cs">
-      <DependentUpon>AddTransactionDialog.xaml</DependentUpon>
+    <Compile Include="Views\Dialogs\ShopDialog.xaml.cs">
+      <DependentUpon>ShopDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\CategoryDialog.xaml.cs">
+      <DependentUpon>CategoryDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\TransactionDialog.xaml.cs">
+      <DependentUpon>TransactionDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CategoryView.xaml.cs">
       <DependentUpon>CategoryView.xaml</DependentUpon>
@@ -199,7 +207,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Dialogs\AddTransactionDialog.xaml">
+    <Page Include="Views\Dialogs\ShopDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Dialogs\CategoryDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Dialogs\TransactionDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
