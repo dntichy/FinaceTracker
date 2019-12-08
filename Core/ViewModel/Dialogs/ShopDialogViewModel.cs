@@ -20,7 +20,7 @@ namespace Core.ViewModel.Dialogs
             Cancel = false;
             var ShopRepo = new ShopRepository();
             Shops = new ObservableCollection<Shop>(ShopRepo.Shops);
-
+            Shop = new Shop();
             CloseDialogCommand = new SimpleCommand
             {
                 ExecuteDelegate = o =>

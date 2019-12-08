@@ -15,7 +15,7 @@ using System.Windows.Input;
 
 namespace Core.ViewModels
 {
-    public class HomeViewModel : INotifyPropertyChanged
+    public class TransactionViewModel : INotifyPropertyChanged
     {
 
         private TransactionRecordRepository TransactionRecordRepository { get; set; }
@@ -46,7 +46,7 @@ namespace Core.ViewModels
 
         public ICommand EditCommand { get; set; }
 
-        public HomeViewModel(IDialogCoordinator dialogCoordinator)
+        public TransactionViewModel(IDialogCoordinator dialogCoordinator)
         {
             this.dialogCoordinator = dialogCoordinator;
             TransactionRecordRepository = new TransactionRecordRepository();
@@ -81,7 +81,6 @@ namespace Core.ViewModels
 
         private async void RemoveTxAsync(object obj)
         {
-
             if (SelectedTransaction != null)
             {
                 var metroWindow = Application.Current.MainWindow as MetroWindow;
@@ -90,7 +89,6 @@ namespace Core.ViewModels
                 {
                     Transactions.Remove(SelectedTransaction);
                 }
-
             }
         }
 

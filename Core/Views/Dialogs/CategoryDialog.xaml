@@ -7,6 +7,7 @@
              xmlns:local="clr-namespace:Core.Views.Dialogs"
              mc:Ignorable="d" 
              xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:wpfx="http://schemas.xceed.com/wpf/xaml/toolkit"
              >
     <Grid>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center"  >
@@ -31,15 +32,15 @@
                    Text="{Binding Category.Name}"
                    HorizontalAlignment="Center"
                    />
-               
-                <TextBox 
-                   Grid.Row="1" Grid.Column="1"
-                   Width="180"
-                   Margin="5"
-                   Height="25"
-                   Text="{Binding Category.Color}"
-                   HorizontalAlignment="Center"
-                   />
+                <wpfx:ColorPicker Grid.Row="1" 
+                                  Name="Color" 
+                                  Height="25"
+                                  Width="180"
+                                  SelectedColor="{Binding Category.Color}"  
+                                  DisplayColorAndName="True"  
+                                  Grid.Column="1"
+                    />
+
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="5" Grid.ColumnSpan="2">
                     <Button  Height="20" 
                 Content="Add"

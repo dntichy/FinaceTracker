@@ -7,14 +7,14 @@ namespace Core.Views
     /// <summary>
     /// Interaction logic for HomeView.xaml
     /// </summary>
-    public partial class HomeView : UserControl
+    public partial class TransactionView : UserControl
     {
-        HomeViewModel homeViewModel = new HomeViewModel(DialogCoordinator.Instance);
+        TransactionViewModel transactionViewModel = new TransactionViewModel(DialogCoordinator.Instance);
 
-        public HomeView()
+        public TransactionView()
         {
             InitializeComponent();
-            DataContext = homeViewModel;
+            DataContext = transactionViewModel;
         }
     }
 }

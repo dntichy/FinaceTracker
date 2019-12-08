@@ -1,15 +1,15 @@
 ﻿using Core.ViewModel.Dialogs;
 using Core.Views.Dialogs;
 using GalaSoft.MvvmLight.Command;
+using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Core.Models.Repositories
@@ -29,7 +29,7 @@ namespace Core.Models.Repositories
                 OnPropertyChanged("Shops");
             }
         }
-        public Category SelectedShop { get; set; }
+        public Shop SelectedShop { get; set; }
 
         public ICommand AddNewCommand { get; set; }
 
@@ -77,9 +77,17 @@ namespace Core.Models.Repositories
             Shops.Add(shop);
         }
 
-        private void RemoveShop(object obj)
+        private async void RemoveShop(object obj)
         {
-            throw new NotImplementedException();
+            if (SelectedShop != null)
+            {
+                var metroWindow = Application.Current.MainWindow as MetroWindow;
+                var result = await metroWindow.ShowMessageAsync("Are you sure", "Are you sure you want to delete? ", MessageDialogStyle.AffirmativeAndNegative);
+                if (result == MessageDialogResult.Affirmative)
+                {
+                    Shops.Remove(SelectedShop);
+                }
+            }
         }
 
         private void EditShop(object obj)
@@ -96,7 +104,20 @@ namespace Core.Models.Repositories
 
         private void OnListChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            throw new NotImplementedException();
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    foreach (Shop item in e.NewItems)
+                        ShopRepository.Add(item);
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    foreach (Shop item in e.OldItems)
+                        ShopRepository.Remove(item);
+                    break;
+                case NotifyCollectionChangedAction.Replace:
+                    break;
+            }
+            ReorderShopList();
         }
     }
 }

@@ -19,9 +19,8 @@ namespace Core.ViewModel.Dialogs
         {
             Cancel = false;
             var CategRepo = new CategoryRepository();
-            var ShopRepo = new ShopRepository();
             Categories = new ObservableCollection<Category>(CategRepo.Categories);
-
+            Category = new Category();
             CloseDialogCommand = new SimpleCommand
             {
                 ExecuteDelegate = o =>

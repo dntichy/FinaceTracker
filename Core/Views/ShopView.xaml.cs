@@ -1,4 +1,5 @@
 ﻿using Core.Models.Repositories;
+using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,8 @@ namespace Core.Views
     /// </summary>
     public partial class ShopView : UserControl
     {
-        ShopViewModel shopViewModel = new ShopViewModel();
+        
+        ShopViewModel shopViewModel = new ShopViewModel(DialogCoordinator.Instance);
         public ShopView()
         {
             InitializeComponent();

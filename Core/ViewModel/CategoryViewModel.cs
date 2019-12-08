@@ -1,6 +1,7 @@
 ﻿using Core.ViewModel.Dialogs;
 using Core.Views.Dialogs;
 using GalaSoft.MvvmLight.Command;
+using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Core.Models.Repositories
@@ -51,7 +53,7 @@ namespace Core.Models.Repositories
             Categories = new ObservableCollection<Category>(CategoryRepository.Categories);
             ReorderCategoryList();
             AddNewCommand = new RelayCommand<object>(AddNewCategory);
-            RemoveCommand = new RelayCommand<object>(RemoveCategory);
+            RemoveCommand = new RelayCommand<object>(RemoveCategoryAsync);
             EditCommand = new RelayCommand<object>(EditCategory);
         }
 
@@ -61,7 +63,6 @@ namespace Core.Models.Repositories
         }
         private async Task GetUserInputAsync()
         {
-
             var categoryDialog = new CategoryDialog();
             var dialogViewModel = new CategoryDialogViewModel(async instance =>
             {
@@ -78,9 +79,17 @@ namespace Core.Models.Repositories
             Categories.Add(category);
         }
 
-        private void RemoveCategory(object obj)
+        private async void RemoveCategoryAsync(object obj)
         {
-            throw new NotImplementedException();
+            if (SelectedCategory != null)
+            {
+                var metroWindow = Application.Current.MainWindow as MetroWindow;
+                var result = await metroWindow.ShowMessageAsync("Are you sure", "Are you sure you want to delete? ", MessageDialogStyle.AffirmativeAndNegative);
+                if (result == MessageDialogResult.Affirmative)
+                {
+                    Categories.Remove(SelectedCategory);
+                }
+            }
         }
 
         private void EditCategory(object obj)
@@ -97,7 +106,20 @@ namespace Core.Models.Repositories
 
         private void OnListChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            throw new NotImplementedException();
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    foreach (Category item in e.NewItems)
+                        CategoryRepository.Add(item);
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    foreach (Category item in e.OldItems)
+                        CategoryRepository.Remove(item);
+                    break;
+                case NotifyCollectionChangedAction.Replace:
+                    break;
+            }
+            ReorderCategoryList();
         }
     }
 }

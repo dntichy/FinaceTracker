@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Core.Views.HomeView"
+﻿<UserControl x:Class="Core.Views.TransactionView"
              xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
              Dialog:DialogParticipation.Register="{Binding}"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"

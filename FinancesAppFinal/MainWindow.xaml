@@ -75,7 +75,7 @@
                   
                     <Controls:HamburgerMenuIconItem Icon="{iconPacks:Material Kind=Home}" Label="Home">
                         <Controls:HamburgerMenuIconItem.Tag>
-                            <views:HomeView />
+                            <views:TransactionView />
                         </Controls:HamburgerMenuIconItem.Tag>
                     </Controls:HamburgerMenuIconItem>
 

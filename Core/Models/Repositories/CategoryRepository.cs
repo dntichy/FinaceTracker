@@ -44,7 +44,7 @@ namespace Core.Models
         }
         private void PersistRecords()
         {
-            string json = JsonConvert.SerializeObject(CategoryPath, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(Categories, Formatting.Indented);
             File.WriteAllText(CategoryPath, json);
         }
 
